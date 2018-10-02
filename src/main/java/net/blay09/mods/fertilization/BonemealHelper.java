@@ -85,14 +85,11 @@ public class BonemealHelper {
             }
         }
 
-        if (!foundSeed) {
+        ItemStack seedInInventory = findSeedInInventory(player, seedItem);
+        if (!foundSeed && !seedInInventory.isEmpty()) {
             // If the crop did not drop a seed, try to find one in the player inventory and use that one instead.
-            for (ItemStack itemStack : player.inventory.mainInventory) {
-                if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
-                    itemStack.shrink(1);
-                    foundSeed = true;
-                }
-            }
+            seedInInventory.shrink(1);
+            foundSeed = true;
         }
 
         if (!foundSeed) {
@@ -103,6 +100,12 @@ public class BonemealHelper {
             world.setBlockState(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
+                if ((!seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.addDropsDirectlyToInventory) {
+                    if (player.inventory.addItemStackToInventory(itemStack)) {
+                        continue;
+                    }
+                }
+
                 EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + spawnOffsetY, pos.getZ() + 0.5, itemStack);
                 entityItem.setPickupDelay(10);
                 world.spawnEntity(entityItem);
@@ -110,6 +113,16 @@ public class BonemealHelper {
         }
 
         return true;
+    }
+
+    private static ItemStack findSeedInInventory(EntityPlayer player, @Nullable Item seedItem) {
+        for (ItemStack itemStack : player.inventory.mainInventory) {
+            if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
+                return itemStack;
+            }
+        }
+
+        return ItemStack.EMPTY;
     }
 
     public static IBlockState getSaplingLog(IBlockState state) {

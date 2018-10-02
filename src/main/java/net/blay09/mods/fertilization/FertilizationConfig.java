@@ -9,6 +9,9 @@ import java.util.List;
 @Config(modid = Fertilization.MOD_ID)
 public class FertilizationConfig {
 
+    @Config.Name("Add Drops Directly to Inventory")
+    @Config.Comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
+    public static boolean addDropsDirectlyToInventory = false;
 
     @Config.Name("Flower Blocks")
     @Config.Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
