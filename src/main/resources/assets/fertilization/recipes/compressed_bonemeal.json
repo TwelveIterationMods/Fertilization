@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "fertilization:compressed_bonemeal"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:dye",
+      "data": 15
+    }
+  }
+}

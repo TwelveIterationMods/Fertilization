@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "fertilization:extremely_compressed_bonemeal"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BBB",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "fertilization:compressed_bonemeal"
+    }
+  }
+}

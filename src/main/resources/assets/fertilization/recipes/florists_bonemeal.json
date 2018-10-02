@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "fertilization:florists_bonemeal",
+    "count": 2
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BF",
+    "FB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:dye",
+      "data": 15
+    },
+    "F": {
+      "type": "forge:ore_dict",
+      "ore": "flower"
+    }
+  }
+}
