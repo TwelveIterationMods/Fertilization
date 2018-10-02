@@ -86,6 +86,16 @@ public class BonemealHelper {
         }
 
         if (!foundSeed) {
+            // If the crop did not drop a seed, try to find one in the player inventory and use that one instead.
+            for (ItemStack itemStack : player.inventory.mainInventory) {
+                if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
+                    itemStack.shrink(1);
+                    foundSeed = true;
+                }
+            }
+        }
+
+        if (!foundSeed) {
             return false;
         }
 
