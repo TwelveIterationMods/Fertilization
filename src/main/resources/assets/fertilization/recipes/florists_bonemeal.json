@@ -16,6 +16,10 @@
     "F": {
       "type": "forge:ore_dict",
       "ore": "flower"
+    },
+    "F":{
+      "type": "forge:ore_dict",
+      "ore": "red_flower"
     }
   }
 }
