@@ -1,6 +1,6 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-package net.blay09.mods.prettybeaches;
+package net.blay09.mods.fertilization;
 
 import mcp.MethodsReturnNonnullByDefault;
 
