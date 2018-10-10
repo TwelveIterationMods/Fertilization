@@ -13,6 +13,10 @@ public class FertilizationConfig {
     @Config.Comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
     public static boolean addDropsDirectlyToInventory = false;
 
+    @Config.Name("Add Drops Directly to Inventory (Automation only)")
+    @Config.Comment("Set to true if compressed bone meal drops should go straight into the machine's inventory when used automatically.")
+    public static boolean addDropsDirectlyToInventoryForFakePlayers = true;
+
     @Config.Name("Flower Blocks")
     @Config.Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
     public static String[] flowerBlocks = {"minecraft:red_flower", "minecraft:yellow_flower", "minecraft:double_plant"};

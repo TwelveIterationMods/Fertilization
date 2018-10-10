@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nullable;
@@ -100,7 +101,7 @@ public class BonemealHelper {
             world.setBlockState(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
-                if ((!seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.addDropsDirectlyToInventory) {
+                if ((!seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.addDropsDirectlyToInventory || (FertilizationConfig.addDropsDirectlyToInventoryForFakePlayers && player instanceof FakePlayer)) {
                     if (player.inventory.addItemStackToInventory(itemStack)) {
                         continue;
                     }
