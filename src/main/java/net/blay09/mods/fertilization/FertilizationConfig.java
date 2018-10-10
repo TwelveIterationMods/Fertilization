@@ -45,6 +45,10 @@ public class FertilizationConfig {
     @Config.Comment("This enables use of normal Bone Meal on vines in order to grow them downwards.")
     public static boolean allowBoneMealOnVines = true;
 
+    @Config.Name("Allow Bone Meal on Sugar Canes")
+    @Config.Comment("This enables use of normal Bone Meal on sugar canes in order to grow them upwards.")
+    public static boolean allowBoneMealOnSugarCanes = true;
+
     private static List<Block> flowerBlocksList = new ArrayList<>();
 
     public static void onConfigReload() {
