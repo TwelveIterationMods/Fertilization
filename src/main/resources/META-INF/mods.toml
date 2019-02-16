@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[24,)"
+issueTrackerURL="https://github.com/blay09/Fertilization/issues"
+displayURL="https://minecraft.curseforge.com/projects/fertilization"
+authors="BlayTheNinth"
+
+[[mods]]
+modId="fertilization"
+version="${file.jarVersion}"
+displayName="Fertilization"
+description='''
+Adds additional variants of bone meal for all your fertilization needs.
+'''

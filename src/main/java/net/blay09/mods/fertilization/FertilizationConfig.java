@@ -1,66 +1,110 @@
 package net.blay09.mods.fertilization;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraftforge.common.config.Config;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Config(modid = Fertilization.MOD_ID)
 public class FertilizationConfig {
 
-    @Config.Name("Add Drops Directly to Inventory")
-    @Config.Comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
-    public static boolean addDropsDirectlyToInventory = false;
+    public static class Common {
+        public final ForgeConfigSpec.BooleanValue addDropsDirectlyToInventory;
+        public final ForgeConfigSpec.BooleanValue addDropsDirectlyToInventoryForFakePlayers;
+        public final ForgeConfigSpec.BooleanValue hugeTrees;
+        public final ForgeConfigSpec.BooleanValue allowBoneMealOnVines;
+        public final ForgeConfigSpec.BooleanValue allowBoneMealOnSugarCanes;
+        public final ForgeConfigSpec.ConfigValue<Integer> compressedBoneMealPower;
+        public final ForgeConfigSpec.ConfigValue<Integer> extremelyCompressedBoneMealPower;
+        public final ForgeConfigSpec.ConfigValue<Integer> floristsBoneMealMaxFlowers;
+        public final ForgeConfigSpec.ConfigValue<Integer> floristsBoneMealMaxRange;
+        public final ForgeConfigSpec.ConfigValue<List<String>> flowerBlocks;
 
-    @Config.Name("Add Drops Directly to Inventory (Automation only)")
-    @Config.Comment("Set to true if compressed bone meal drops should go straight into the machine's inventory when used automatically.")
-    public static boolean addDropsDirectlyToInventoryForFakePlayers = true;
+        Common(ForgeConfigSpec.Builder builder) {
+            builder.comment("Configuration for Fertilization").push("common");
 
-    @Config.Name("Flower Blocks")
-    @Config.Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
-    public static String[] flowerBlocks = {"minecraft:red_flower", "minecraft:yellow_flower", "minecraft:double_plant"};
+            addDropsDirectlyToInventory = builder
+                    .comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
+                    .translation("fertilization.config.addDropsDirectlyToInventory")
+                    .define("addDropsDirectlyToInventory", false);
 
-    @Config.Name("Compressed Bone Meal Power")
-    @Config.Comment("The amount of bone meal applied to the plant when using compressed bone meal.")
-    public static int compressedBoneMealPower = 4;
+            addDropsDirectlyToInventoryForFakePlayers = builder
+                    .comment("Set to true if compressed bone meal drops should go straight into the machine's inventory when used automatically.")
+                    .translation("fertilization.config.addDropsDirectlyToInventoryForFakePlayers")
+                    .define("addDropsDirectlyToInventoryForFakePlayers", true);
 
-    @Config.Name("Extremely Compressed Bone Meal Power")
-    @Config.Comment("The amount of bone meal applied to the plant when using extremely compressed bone meal.")
-    public static int extremelyCompressedBoneMealPower = 36;
+            hugeTrees = builder
+                    .comment("Set to true if Extremely Compressed Bone Meal should cause huge trees to grow.")
+                    .translation("fertilization.config.hugeTrees")
+                    .define("hugeTrees", true);
 
-    @Config.Name("Enable Huge Trees")
-    @Config.Comment("Set to true if Extremely Compressed Bone Meal should cause huge trees to grow.")
-    public static boolean hugeTrees = true;
+            allowBoneMealOnVines = builder
+                    .comment("This enables use of normal Bone Meal on vines in order to grow them downwards.")
+                    .translation("fertilization.config.allowBoneMealOnVines")
+                    .define("allowBoneMealOnVines", true);
 
-    @Config.Name("Max Flowers to Spawn from Florist's Bonemeal")
-    @Config.Comment("The maximum amount of flowers that can spawn when using Florist's Bone Meal on grass.")
-    public static int floristsBoneMealMaxFlowers = 5;
+            allowBoneMealOnSugarCanes = builder
+                    .comment("This enables use of normal Bone Meal on sugar canes in order to grow them upwards.")
+                    .translation("fertilization.config.allowBoneMealOnSugarCanes")
+                    .define("allowBoneMealOnSugarCanes", true);
 
-    @Config.Name("Max Range to Spawn from Florist's Bonemeal")
-    @Config.Comment("The maximum range that flowers can spawn when using Florist's Bone Meal on grass.")
-    public static int floristsBoneMealMaxRange = 3;
+            compressedBoneMealPower = builder
+                    .comment("The amount of bone meal applied to the plant when using compressed bone meal.")
+                    .translation("fertilization.config.compressedBoneMealPower")
+                    .define("compressedBoneMealPower", 4);
 
-    @Config.Name("Allow Bone Meal on Vines")
-    @Config.Comment("This enables use of normal Bone Meal on vines in order to grow them downwards.")
-    public static boolean allowBoneMealOnVines = true;
+            extremelyCompressedBoneMealPower = builder
+                    .comment("The amount of bone meal applied to the plant when using extremely compressed bone meal.")
+                    .translation("fertilization.config.extremelyCompressedBoneMealPower")
+                    .define("extremelyCompressedBoneMealPower", 36);
 
-    @Config.Name("Allow Bone Meal on Sugar Canes")
-    @Config.Comment("This enables use of normal Bone Meal on sugar canes in order to grow them upwards.")
-    public static boolean allowBoneMealOnSugarCanes = true;
+            floristsBoneMealMaxFlowers = builder
+                    .comment("The maximum amount of flowers that can spawn when using Florist's Bone Meal on grass.")
+                    .translation("fertilization.config.floristsBoneMealMaxFlowers")
+                    .define("floristsBoneMealMaxFlowers", 5);
 
-    private static List<Block> flowerBlocksList = new ArrayList<>();
+            floristsBoneMealMaxRange = builder
+                    .comment("The maximum range that flowers can spawn when using Florist's Bone Meal on grass.")
+                    .translation("fertilization.config.floristsBoneMealMaxRange")
+                    .define("floristsBoneMealMaxRange", 3);
 
-    public static void onConfigReload() {
-        flowerBlocksList.clear();
-
-        for (String block : flowerBlocks) {
-            flowerBlocksList.add(Block.getBlockFromName(block));
+            flowerBlocks = builder
+                    .comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
+                    .translation("fertilization.config.flowerBlocks")
+                    .define("flowerBlocks", Lists.newArrayList(
+                            "minecraft:poppy",
+                            "minecraft:dandelion",
+                            "minecraft:blue_orchid",
+                            "minecraft:allium",
+                            "minecraft:azure_bluet",
+                            "minecraft:red_tulip",
+                            "minecraft:orange_tulip",
+                            "minecraft:white_tulip",
+                            "minecraft:pink_tulip",
+                            "minecraft_oxeye_daisy",
+                            "minecraft:rose_bush",
+                            "minecraft:peony"));
         }
     }
 
     public static boolean isFlowerBlock(Block block) {
-        return flowerBlocksList.contains(block);
+        ResourceLocation registryName = block.getRegistryName();
+        if (registryName != null) {
+            return COMMON.flowerBlocks.get().contains(registryName.toString());
+        }
+
+        return false;
+    }
+
+    static final ForgeConfigSpec commonSpec;
+    public static final Common COMMON;
+
+    static {
+        final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+        commonSpec = specPair.getRight();
+        COMMON = specPair.getLeft();
     }
 
 }

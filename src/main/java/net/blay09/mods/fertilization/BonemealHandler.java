@@ -8,29 +8,29 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BonemealHandler {
 
     @SubscribeEvent
     public void onBonemealVinesAndSugarCanes(PlayerInteractEvent.RightClickBlock event) {
-        if (event.getItemStack().getItem() != Items.DYE || event.getItemStack().getMetadata() != 15) {
+        if (event.getItemStack().getItem() != Items.BONE_MEAL) {
             return;
         }
 
         IBlockState state = event.getWorld().getBlockState(event.getPos());
         Block growthBlock = state.getBlock();
-        if (growthBlock != Blocks.VINE && growthBlock != Blocks.REEDS) {
+        if (growthBlock != Blocks.VINE && growthBlock != Blocks.SUGAR_CANE) {
             return;
         }
 
-        if (growthBlock == Blocks.REEDS && !FertilizationConfig.allowBoneMealOnSugarCanes) {
+        if (growthBlock == Blocks.SUGAR_CANE && !FertilizationConfig.COMMON.allowBoneMealOnSugarCanes.get()) {
             return;
-        } else if (growthBlock == Blocks.VINE && !FertilizationConfig.allowBoneMealOnVines) {
+        } else if (growthBlock == Blocks.VINE && !FertilizationConfig.COMMON.allowBoneMealOnVines.get()) {
             return;
         }
 
-        boolean growUpwards = growthBlock == Blocks.REEDS;
+        boolean growUpwards = growthBlock == Blocks.SUGAR_CANE;
 
         event.setCancellationResult(EnumActionResult.SUCCESS);
         event.setCanceled(true);
@@ -42,7 +42,7 @@ public class BonemealHandler {
             candidatePos = growUpwards ? candidatePos.up() : candidatePos.down();
         }
 
-        if (!world.isAirBlock(candidatePos) || world.isOutsideBuildHeight(candidatePos)) {
+        if (!world.isAirBlock(candidatePos) || World.isOutsideBuildHeight(candidatePos)) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class BonemealHandler {
             world.playEvent(2005, event.getPos(), 0);
         }
 
-        if (!event.getEntityPlayer().capabilities.isCreativeMode) {
+        if (!event.getEntityPlayer().abilities.isCreativeMode) {
             event.getItemStack().shrink(1);
         }
     }

@@ -1,7 +1,13 @@
 package net.blay09.mods.fertilization;
 
-import net.minecraft.block.*;
+import net.blay09.mods.fertilization.worldgen.ExtremeTree;
+import net.blay09.mods.fertilization.worldgen.ExtremeTreeFeature;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCocoa;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockSapling;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.trees.AbstractTree;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,31 +18,31 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class BonemealHelper {
+public class BoneMealHelper {
 
     public static Method getSeedMethod;
 
     @Nullable
     public static Item getSeedFromCrop(IBlockState state) {
         if (state.getBlock() == Blocks.COCOA) {
-            return Items.DYE;
+            return Items.COCOA_BEANS;
         }
 
         if (getSeedMethod == null) {
-            try {
-                getSeedMethod = ReflectionHelper.findMethod(BlockCrops.class, "getSeed", "func_149866_i");
-            } catch (ReflectionHelper.UnableToFindMethodException e) {
-                e.printStackTrace();
+            getSeedMethod = TempUtils.findMethod(BlockCrops.class, Arrays.asList("getSeedsItem", "func_199772_f"));
+            if (getSeedMethod == null) {
                 return null;
             }
+
+            getSeedMethod.setAccessible(true);
         }
 
         try {
@@ -48,11 +54,11 @@ public class BonemealHelper {
     }
 
     public static boolean isGrassBlock(IBlockState state) {
-        return state.getBlock() == Blocks.GRASS;
+        return state.getBlock() == Blocks.GRASS_BLOCK;
     }
 
     public static boolean isSapling(IBlockState state) {
-        return state.getBlock() == Blocks.SAPLING;
+        return state.getBlock() instanceof BlockSapling;
     }
 
     public static boolean tryHarvest(EntityPlayer player, World world, BlockPos pos) {
@@ -61,7 +67,7 @@ public class BonemealHelper {
             return true;
         }
 
-        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() == Blocks.COCOA && it.getValue(BlockCocoa.AGE) >= 2, Blocks.COCOA::getDefaultState, -0.75f)) {
+        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() == Blocks.COCOA && it.get(BlockCocoa.AGE) >= 2, Blocks.COCOA::getDefaultState, -0.75f)) {
             return true;
         }
 
@@ -74,7 +80,7 @@ public class BonemealHelper {
         }
 
         NonNullList<ItemStack> drops = NonNullList.create();
-        state.getBlock().getDrops(drops, world, pos, state, 0);
+        state.getBlock().getDrops(state, drops, world, pos, 0);
 
         Item seedItem = getSeedFromCrop(state);
         boolean foundSeed = false;
@@ -101,7 +107,7 @@ public class BonemealHelper {
             world.setBlockState(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
-                if ((!seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.addDropsDirectlyToInventory || (FertilizationConfig.addDropsDirectlyToInventoryForFakePlayers && player instanceof FakePlayer)) {
+                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.COMMON.addDropsDirectlyToInventory.get() || (FertilizationConfig.COMMON.addDropsDirectlyToInventoryForFakePlayers.get() && player instanceof FakePlayer)) {
                     if (player.inventory.addItemStackToInventory(itemStack)) {
                         continue;
                     }
@@ -126,46 +132,38 @@ public class BonemealHelper {
         return ItemStack.EMPTY;
     }
 
-    public static IBlockState getSaplingLog(IBlockState state) {
+    @Nullable
+    public static AbstractTree getExtremeTree(IBlockState state) {
         if (state.getBlock() instanceof BlockSapling) {
-            switch (state.getValue(BlockSapling.TYPE)) {
-                case OAK:
-                    return Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.OAK);
-                case SPRUCE:
-                    return Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE);
-                case DARK_OAK:
-                    return Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.DARK_OAK);
-                case BIRCH:
-                    return Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.BIRCH);
-                case JUNGLE:
-                    return Blocks.LOG.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-                case ACACIA:
-                    return Blocks.LOG2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.ACACIA);
+            Block block = state.getBlock();
+            IBlockState logState;
+            IBlockState leavesState;
+            if (block == Blocks.OAK_SAPLING) {
+                logState = Blocks.OAK_LOG.getDefaultState();
+                leavesState = Blocks.OAK_LEAVES.getDefaultState();
+            } else if (block == Blocks.SPRUCE_SAPLING) {
+                logState = Blocks.SPRUCE_LOG.getDefaultState();
+                leavesState = Blocks.SPRUCE_LEAVES.getDefaultState();
+            } else if (block == Blocks.DARK_OAK_SAPLING) {
+                logState = Blocks.DARK_OAK_LOG.getDefaultState();
+                leavesState = Blocks.DARK_OAK_LEAVES.getDefaultState();
+            } else if (block == Blocks.BIRCH_SAPLING) {
+                logState = Blocks.BIRCH_LOG.getDefaultState();
+                leavesState = Blocks.BIRCH_LEAVES.getDefaultState();
+            } else if (block == Blocks.JUNGLE_SAPLING) {
+                logState = Blocks.JUNGLE_LOG.getDefaultState();
+                leavesState = Blocks.JUNGLE_LEAVES.getDefaultState();
+            } else if (block == Blocks.ACACIA_SAPLING) {
+                logState = Blocks.ACACIA_LOG.getDefaultState();
+                leavesState = Blocks.ACACIA_LEAVES.getDefaultState();
+            } else {
+                return null;
             }
+
+            return new ExtremeTree(new ExtremeTreeFeature(true, 20, 10, logState, leavesState));
         }
 
-        return Blocks.AIR.getDefaultState();
-    }
-
-    public static IBlockState getSaplingLeaves(IBlockState state) {
-        if (state.getBlock() instanceof BlockSapling) {
-            switch (state.getValue(BlockSapling.TYPE)) {
-                case OAK:
-                    return Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK);
-                case SPRUCE:
-                    return Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE);
-                case DARK_OAK:
-                    return Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK);
-                case BIRCH:
-                    return Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.BIRCH);
-                case JUNGLE:
-                    return Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE);
-                case ACACIA:
-                    return Blocks.LEAVES2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.ACACIA);
-            }
-        }
-
-        return Blocks.AIR.getDefaultState();
+        return null;
     }
 
     public static boolean isStemCrop(IBlockState state) {
@@ -173,6 +171,6 @@ public class BonemealHelper {
     }
 
     public static boolean isGrowableDisabledForCompressed(IBlockState state) {
-        return isGrassBlock(state) || state.getBlock() == Blocks.TALLGRASS;
+        return isGrassBlock(state) || state.getBlock() == Blocks.TALL_GRASS;
     }
 }
