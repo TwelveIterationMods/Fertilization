@@ -3,19 +3,17 @@
     "item": "fertilization:florists_bonemeal",
     "count": 2
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "BF",
     "FB"
   ],
   "key": {
     "B": {
-      "item": "minecraft:dye",
-      "data": 15
+      "item": "minecraft:bone_meal"
     },
     "F": {
-      "type": "forge:ore_dict",
-      "ore": "flower"
+      "tag": "fertilization:flower"
     }
   }
 }

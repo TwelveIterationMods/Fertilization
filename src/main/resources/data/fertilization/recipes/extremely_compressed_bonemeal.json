@@ -2,7 +2,7 @@
   "result": {
     "item": "fertilization:extremely_compressed_bonemeal"
   },
-  "type": "forge:ore_shaped",
+  "type": "crafting_shaped",
   "pattern": [
     "BBB",
     "BBB",
