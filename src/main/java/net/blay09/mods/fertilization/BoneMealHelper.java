@@ -18,11 +18,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -37,8 +37,9 @@ public class BoneMealHelper {
         }
 
         if (getSeedMethod == null) {
-            getSeedMethod = TempUtils.findMethod(BlockCrops.class, Arrays.asList("getSeedsItem", "func_199772_f"));
-            if (getSeedMethod == null) {
+            try {
+                getSeedMethod = ObfuscationReflectionHelper.findMethod(BlockCrops.class, "func_199772_f");
+            } catch (ObfuscationReflectionHelper.UnableToFindMethodException ignored) {
                 return null;
             }
 
