@@ -44,8 +44,8 @@ public class ItemExtremelyCompressedBonemeal extends ItemCompressedBonemeal {
 
             if (!worldGen.generate(world, world.rand, pos)) {
                 world.setBlockState(pos, state, 4);
-
-                if (!player.abilities.isCreativeMode) {
+            } else {
+                if (!player.capabilities.isCreativeMode) {
                     player.getHeldItem(hand).shrink(1);
                 }
             }
