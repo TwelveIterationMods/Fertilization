@@ -76,8 +76,6 @@ public class ItemCompressedBoneMeal extends Item {
         return EnumActionResult.SUCCESS;
     }
 
-
-
     protected int getBoneMealCount() {
         return FertilizationConfig.COMMON.compressedBoneMealPower.get();
     }

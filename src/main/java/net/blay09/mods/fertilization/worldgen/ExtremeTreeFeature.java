@@ -23,7 +23,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
     @Override
     protected boolean place(Set<BlockPos> changedBlocks, IWorld world, Random rand, BlockPos pos) {
-        boolean isJungleTree = woodMetadata.getBlock() == Blocks.JUNGLE_LOG;
+        boolean isJungleTree = trunk.getBlock() == Blocks.JUNGLE_LOG;
         int height = getHeight(rand);
 
         if (!func_203427_a(world, pos, height)) { // ensureGrowable
@@ -47,7 +47,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                 for (int j = 0; j < 8; j++) {
                     x = pos.getX() + (int) (1.5f + MathHelper.cos(f) * (float) j);
                     z = pos.getZ() + (int) (1.5f + MathHelper.sin(f) * (float) j);
-                    func_208520_a(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), woodMetadata); // setBlockAndNotifyAdequately
+                    setLogState(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), trunk);
                 }
 
                 int leavesStartY = 1 + rand.nextInt(2);
@@ -63,7 +63,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
             // Spawn the center wood block
             if (isAirOrLeaves(world, abovePos)) {
-                func_208520_a(changedBlocks, world, abovePos, woodMetadata); // setBlockAndNotifyAdequately
+                setLogState(changedBlocks, world, abovePos, trunk);
             }
 
             // Spawn the outer lower logs
@@ -86,7 +86,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                         }
 
                         if (isAirOrLeaves(world, currentPos)) {
-                            func_208520_a(changedBlocks, world, currentPos, woodMetadata); // setBlockAndNotifyAdequately
+                            setLogState(changedBlocks, world, currentPos, trunk);
                         }
                     }
                 }
@@ -117,7 +117,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
     private void placeVine(Set<BlockPos> changedBlocks, IWorld world, Random random, BlockPos pos, BooleanProperty vineProperty) {
         if (random.nextInt(3) > 0 && world.isAirBlock(pos)) {
-            func_208520_a(changedBlocks, world, pos, Blocks.VINE.getDefaultState().with(vineProperty, true)); // setBlockAndNotifyAdequately
+            setLogState(changedBlocks, world, pos, Blocks.VINE.getDefaultState().with(vineProperty, true));
         }
     }
 
