@@ -3,67 +3,69 @@ package net.blay09.mods.fertilization.item;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.Fertilization;
 import net.blay09.mods.fertilization.FertilizationConfig;
-import net.blay09.mods.fertilization.TempUtils;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoublePlantBlock;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.CompositeFlowerFeature;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.FlowersFeature;
 
 import java.util.List;
 import java.util.Random;
 
-public class ItemFloristsBonemeal extends Item {
+public class FloristsBonemealItem extends Item {
 
     public static final String name = "florists_bonemeal";
     public static ResourceLocation registryName = new ResourceLocation(Fertilization.MOD_ID, name);
 
-    public ItemFloristsBonemeal() {
+    public FloristsBonemealItem() {
         super(new Item.Properties().group(Fertilization.itemGroup));
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemUseContext useContext) {
+    public ActionResultType onItemUse(ItemUseContext useContext) {
         World world = useContext.getWorld();
         BlockPos pos = useContext.getPos();
-        EntityPlayer player = useContext.getPlayer();
+        PlayerEntity player = useContext.getPlayer();
         if (player == null) {
-            return EnumActionResult.PASS;
+            return ActionResultType.PASS;
         }
-        EnumHand hand = TempUtils.getItemUseHand(useContext);
 
-        IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() instanceof BlockDoublePlant && state.get(BlockDoublePlant.HALF) == DoubleBlockHalf.UPPER) {
+        Hand hand = useContext.func_221531_n();
+
+        BlockState state = world.getBlockState(pos);
+        if (state.getBlock() instanceof DoublePlantBlock && state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER) {
             state = world.getBlockState(pos.down());
         }
 
         if (FertilizationConfig.isFlowerBlock(state.getBlock())) {
             if (!world.isRemote) {
-                NonNullList<ItemStack> drops = NonNullList.create();
-                state.getBlock().getDrops(state, drops, world, pos, 0);
+                List<ItemStack> drops = Block.getDrops(state, (ServerWorld) world, pos, null);
                 for (ItemStack itemStack : drops) {
-                    EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, itemStack);
-                    world.spawnEntity(entityItem);
+                    ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, itemStack);
+                    world.func_217376_c(entityItem);
                 }
 
-                if (!player.abilities.isCreativeMode) {
+                if (!player.playerAbilities.isCreativeMode) {
                     player.getHeldItem(hand).shrink(1);
                 }
 
                 world.playEvent(2005, pos, 0);
             }
 
-            return EnumActionResult.SUCCESS;
+            return ActionResultType.SUCCESS;
         }
 
         if (BoneMealHelper.isGrassBlock(state)) {
@@ -87,24 +89,24 @@ public class ItemFloristsBonemeal extends Item {
                 }
             }
 
-            if (!player.abilities.isCreativeMode) {
+            if (!player.playerAbilities.isCreativeMode) {
                 player.getHeldItem(hand).shrink(1);
             }
 
-            return EnumActionResult.SUCCESS;
+            return ActionResultType.SUCCESS;
         }
 
-        return EnumActionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     private void plantFlower(World world, BlockPos pos, Random rand) {
-        IBlockState state;
-        List<CompositeFlowerFeature<?>> list = world.getBiome(pos).getFlowers();
+        BlockState state;
+        List<ConfiguredFeature<?>> list = world.getBiome(pos).getFlowers();
         if (list.isEmpty()) {
             return;
         }
 
-        state = list.get(0).getRandomFlower(rand, pos);
+        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).getRandomFlower(rand, pos);
         if (state.isValidPosition(world, pos)) {
             world.setBlockState(pos, state, 3);
         }

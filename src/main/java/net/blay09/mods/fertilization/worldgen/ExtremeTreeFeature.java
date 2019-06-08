@@ -1,39 +1,42 @@
 package net.blay09.mods.fertilization.worldgen;
 
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockVine;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import com.mojang.datafixers.Dynamic;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.VineBlock;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.HugeTreesFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Function;
 
 public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
-    public ExtremeTreeFeature(boolean notify, int baseHeight, int extraRandomHeight, IBlockState logState, IBlockState leavesState) {
-        super(notify, baseHeight, extraRandomHeight, logState, leavesState);
+    public ExtremeTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean p_i51481_2_, int baseHeight, int extraRandomHeight, BlockState trunkState, BlockState leavesState) {
+        super(config, p_i51481_2_, baseHeight, extraRandomHeight, trunkState, leavesState);
     }
 
     @Override
-    protected boolean place(Set<BlockPos> changedBlocks, IWorld world, Random rand, BlockPos pos) {
-        boolean isJungleTree = trunk.getBlock() == Blocks.JUNGLE_LOG;
+    protected boolean place(Set<BlockPos> changedBlocks, IWorldGenerationReader world, Random rand, BlockPos pos, MutableBoundingBox boundingBox) {
+        boolean isJungleTree = field_76520_b.getBlock() == Blocks.JUNGLE_LOG;
         int height = getHeight(rand);
 
         if (!func_203427_a(world, pos, height)) { // ensureGrowable
             return false;
         }
 
-        createCrown(world, pos.up(height), 1);
-        createCrown(world, pos.up(height - 5), 2);
-        createCrown(world, pos.up(height - 7), 3);
-        createCrown(world, pos.up(height - 10), 5);
+        createCrown(changedBlocks, world, pos.up(height), 1, boundingBox);
+        createCrown(changedBlocks, world, pos.up(height - 5), 2, boundingBox);
+        createCrown(changedBlocks, world, pos.up(height - 7), 3, boundingBox);
+        createCrown(changedBlocks, world, pos.up(height - 10), 5, boundingBox);
 
         // Spawn branches
         int startY = pos.getY() + height - 2 - rand.nextInt(4);
@@ -47,13 +50,13 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                 for (int j = 0; j < 8; j++) {
                     x = pos.getX() + (int) (1.5f + MathHelper.cos(f) * (float) j);
                     z = pos.getZ() + (int) (1.5f + MathHelper.sin(f) * (float) j);
-                    setLogState(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), trunk);
+                    setLogState(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), field_76520_b, boundingBox);
                 }
 
                 int leavesStartY = 1 + rand.nextInt(2);
                 for (int leavesY = y - leavesStartY; leavesY <= y; leavesY++) {
                     int leavesLayer = leavesY - y;
-                    growLeavesLayer(world, new BlockPos(x, leavesY, z), 1 - leavesLayer);
+                    func_203427_a(world, new BlockPos(x, leavesY, z), 1 - leavesLayer); // growLeavesLayer
                 }
             }
         }
@@ -63,7 +66,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
             // Spawn the center wood block
             if (isAirOrLeaves(world, abovePos)) {
-                setLogState(changedBlocks, world, abovePos, trunk);
+                setLogState(changedBlocks, world, abovePos, field_76520_b, boundingBox);
             }
 
             // Spawn the outer lower logs
@@ -78,7 +81,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                             if (isJungleTree) {
                                 BooleanProperty vineDirectionProperty = getVineDirectionProperty(rand, offsetX, offsetZ);
                                 if (vineDirectionProperty != null) {
-                                    placeVine(changedBlocks, world, rand, currentPos, vineDirectionProperty);
+                                    placeVine(changedBlocks, world, rand, currentPos, vineDirectionProperty, boundingBox);
                                 }
                             }
 
@@ -86,7 +89,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                         }
 
                         if (isAirOrLeaves(world, currentPos)) {
-                            setLogState(changedBlocks, world, currentPos, trunk);
+                            setLogState(changedBlocks, world, currentPos, field_76520_b, boundingBox);
                         }
                     }
                 }
@@ -100,36 +103,35 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
     private BooleanProperty getVineDirectionProperty(Random random, int offsetX, int offsetZ) {
         if (random.nextBoolean()) {
             if (offsetX == 1) {
-                return BlockVine.WEST;
+                return VineBlock.WEST;
             } else if (offsetX == -1) {
-                return BlockVine.EAST;
+                return VineBlock.EAST;
             }
         } else {
             if (offsetZ == 1) {
-                return BlockVine.NORTH;
+                return VineBlock.NORTH;
             } else if (offsetZ == -1) {
-                return BlockVine.SOUTH;
+                return VineBlock.SOUTH;
             }
         }
 
         return null;
     }
 
-    private void placeVine(Set<BlockPos> changedBlocks, IWorld world, Random random, BlockPos pos, BooleanProperty vineProperty) {
-        if (random.nextInt(3) > 0 && world.isAirBlock(pos)) {
-            setLogState(changedBlocks, world, pos, Blocks.VINE.getDefaultState().with(vineProperty, true));
+    private void placeVine(Set<BlockPos> changedBlocks, IWorldGenerationReader world, Random random, BlockPos pos, BooleanProperty vineProperty, MutableBoundingBox boundingBox) {
+        if (random.nextInt(3) > 0 && isAir(world, pos)) {
+            setLogState(changedBlocks, world, pos, Blocks.VINE.getDefaultState().with(vineProperty, true), boundingBox);
         }
     }
 
-    private void createCrown(IWorld world, BlockPos pos, int width) {
+    private void createCrown(Set<BlockPos> changedBlocks, IWorldGenerationReader world, BlockPos pos, int width, MutableBoundingBox boundingBox) {
         for (int i = -2; i <= 0; i++) {
-            growLeavesLayerStrict(world, pos.up(i), width + 1 - i);
+            func_222839_a(world, pos.up(i), width + 1 - i, boundingBox, changedBlocks); // growLeavesLayerStrict
         }
     }
 
-    private boolean isAirOrLeaves(IWorld world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        return state.getBlock().isAir(state, world, pos) || state.getBlock() instanceof BlockLeaves;
+    private boolean isAirOrLeaves(IWorldGenerationReader world, BlockPos pos) {
+        return isAir(world, pos) || world.func_217375_a(pos, it -> it.getBlock() instanceof LeavesBlock);
     }
 
 }

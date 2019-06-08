@@ -11,9 +11,9 @@ public class ModItems {
 
     public static void registerItems(IForgeRegistry<Item> registry) {
         registry.registerAll(
-                compressedBonemeal = new ItemCompressedBoneMeal().setRegistryName(ItemCompressedBoneMeal.registryName),
-                extremelyCompressedBonemeal = new ItemExtremelyCompressedBoneMeal().setRegistryName(ItemExtremelyCompressedBoneMeal.registryName),
-                floristsBonemeal = new ItemFloristsBonemeal().setRegistryName(ItemFloristsBonemeal.registryName)
+                compressedBonemeal = new CompressedBoneMealItem().setRegistryName(CompressedBoneMealItem.registryName),
+                extremelyCompressedBonemeal = new ExtremelyCompressedBoneMealItem().setRegistryName(ExtremelyCompressedBoneMealItem.registryName),
+                floristsBonemeal = new FloristsBonemealItem().setRegistryName(FloristsBonemealItem.registryName)
         );
     }
 }

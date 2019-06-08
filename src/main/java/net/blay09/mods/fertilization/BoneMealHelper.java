@@ -2,27 +2,25 @@ package net.blay09.mods.fertilization;
 
 import net.blay09.mods.fertilization.worldgen.ExtremeTree;
 import net.blay09.mods.fertilization.worldgen.ExtremeTreeFeature;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCocoa;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.trees.AbstractTree;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.*;
+import net.minecraft.block.trees.Tree;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -31,14 +29,14 @@ public class BoneMealHelper {
     public static Method getSeedMethod;
 
     @Nullable
-    public static Item getSeedFromCrop(IBlockState state) {
+    public static Item getSeedFromCrop(BlockState state) {
         if (state.getBlock() == Blocks.COCOA) {
             return Items.COCOA_BEANS;
         }
 
         if (getSeedMethod == null) {
             try {
-                getSeedMethod = ObfuscationReflectionHelper.findMethod(BlockCrops.class, "func_199772_f");
+                getSeedMethod = ObfuscationReflectionHelper.findMethod(CropsBlock.class, "func_199772_f");
             } catch (ObfuscationReflectionHelper.UnableToFindMethodException ignored) {
                 return null;
             }
@@ -54,34 +52,34 @@ public class BoneMealHelper {
         }
     }
 
-    public static boolean isGrassBlock(IBlockState state) {
+    public static boolean isGrassBlock(BlockState state) {
         return state.getBlock() == Blocks.GRASS_BLOCK;
     }
 
-    public static boolean isSapling(IBlockState state) {
-        return state.getBlock() instanceof BlockSapling;
+    public static boolean isSapling(BlockState state) {
+        return state.getBlock() instanceof SaplingBlock;
     }
 
-    public static boolean tryHarvest(EntityPlayer player, World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() instanceof BlockCrops && ((BlockCrops) it.getBlock()).isMaxAge(it), () -> ((BlockCrops) state.getBlock()).withAge(0), 0.25f)) {
+    public static boolean tryHarvest(PlayerEntity player, World world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() instanceof CropsBlock && ((CropsBlock) it.getBlock()).isMaxAge(it), () -> ((CropsBlock) state.getBlock()).withAge(0), 0.25f)) {
             return true;
         }
 
-        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() == Blocks.COCOA && it.get(BlockCocoa.AGE) >= 2, Blocks.COCOA::getDefaultState, -0.75f)) {
+        //noinspection RedundantIfStatement
+        if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() == Blocks.COCOA && it.get(CocoaBlock.AGE) >= 2, Blocks.COCOA::getDefaultState, -0.75f)) {
             return true;
         }
 
         return false;
     }
 
-    public static boolean tryHarvestGeneric(EntityPlayer player, World world, BlockPos pos, IBlockState state, Predicate<IBlockState> isMature, Supplier<IBlockState> newCropState, float spawnOffsetY) {
+    public static boolean tryHarvestGeneric(PlayerEntity player, World world, BlockPos pos, BlockState state, Predicate<BlockState> isMature, Supplier<BlockState> newCropState, float spawnOffsetY) {
         if (!isMature.test(state)) {
             return false;
         }
 
-        NonNullList<ItemStack> drops = NonNullList.create();
-        state.getBlock().getDrops(state, drops, world, pos, 0);
+        List<ItemStack> drops = world instanceof ServerWorld ? Block.getDrops(state, (ServerWorld) world, pos, null) : Collections.emptyList();
 
         Item seedItem = getSeedFromCrop(state);
         boolean foundSeed = false;
@@ -114,16 +112,16 @@ public class BoneMealHelper {
                     }
                 }
 
-                EntityItem entityItem = new EntityItem(world, pos.getX() + 0.5, pos.getY() + spawnOffsetY, pos.getZ() + 0.5, itemStack);
+                ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + spawnOffsetY, pos.getZ() + 0.5, itemStack);
                 entityItem.setPickupDelay(10);
-                world.spawnEntity(entityItem);
+                world.func_217376_c(entityItem);
             }
         }
 
         return true;
     }
 
-    private static ItemStack findSeedInInventory(EntityPlayer player, @Nullable Item seedItem) {
+    private static ItemStack findSeedInInventory(PlayerEntity player, @Nullable Item seedItem) {
         for (ItemStack itemStack : player.inventory.mainInventory) {
             if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
                 return itemStack;
@@ -134,11 +132,11 @@ public class BoneMealHelper {
     }
 
     @Nullable
-    public static AbstractTree getExtremeTree(IBlockState state) {
-        if (state.getBlock() instanceof BlockSapling) {
+    public static Tree getExtremeTree(BlockState state) {
+        if (state.getBlock() instanceof SaplingBlock) {
             Block block = state.getBlock();
-            IBlockState logState;
-            IBlockState leavesState;
+            BlockState logState;
+            BlockState leavesState;
             if (block == Blocks.OAK_SAPLING) {
                 logState = Blocks.OAK_LOG.getDefaultState();
                 leavesState = Blocks.OAK_LEAVES.getDefaultState();
@@ -161,17 +159,17 @@ public class BoneMealHelper {
                 return null;
             }
 
-            return new ExtremeTree(new ExtremeTreeFeature(true, 20, 10, logState, leavesState));
+            return new ExtremeTree(new ExtremeTreeFeature(NoFeatureConfig::func_214639_a, true, 20, 10, logState, leavesState));
         }
 
         return null;
     }
 
-    public static boolean isStemCrop(IBlockState state) {
+    public static boolean isStemCrop(BlockState state) {
         return state.getBlock() == Blocks.MELON_STEM || state.getBlock() == Blocks.PUMPKIN_STEM;
     }
 
-    public static boolean isGrowableDisabledForCompressed(IBlockState state) {
+    public static boolean isGrowableDisabledForCompressed(BlockState state) {
         return isGrassBlock(state) || state.getBlock() == Blocks.TALL_GRASS;
     }
 }

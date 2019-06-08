@@ -1,10 +1,10 @@
 package net.blay09.mods.fertilization;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -18,7 +18,7 @@ public class BonemealHandler {
             return;
         }
 
-        IBlockState state = event.getWorld().getBlockState(event.getPos());
+        BlockState state = event.getWorld().getBlockState(event.getPos());
         Block growthBlock = state.getBlock();
         if (growthBlock != Blocks.VINE && growthBlock != Blocks.SUGAR_CANE) {
             return;
@@ -32,7 +32,7 @@ public class BonemealHandler {
 
         boolean growUpwards = growthBlock == Blocks.SUGAR_CANE;
 
-        event.setCancellationResult(EnumActionResult.SUCCESS);
+        event.setCancellationResult(ActionResultType.SUCCESS);
         event.setCanceled(true);
 
         World world = event.getWorld();
@@ -52,7 +52,7 @@ public class BonemealHandler {
             world.playEvent(2005, event.getPos(), 0);
         }
 
-        if (!event.getEntityPlayer().abilities.isCreativeMode) {
+        if (!event.getEntityPlayer().playerAbilities.isCreativeMode) {
             event.getItemStack().shrink(1);
         }
     }
