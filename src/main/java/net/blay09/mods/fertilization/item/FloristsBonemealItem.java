@@ -16,11 +16,11 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
 import net.minecraft.world.gen.feature.FlowersFeature;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 import java.util.Random;
@@ -43,7 +43,7 @@ public class FloristsBonemealItem extends Item {
             return ActionResultType.PASS;
         }
 
-        Hand hand = useContext.func_221531_n();
+        Hand hand = useContext.getHand();
 
         BlockState state = world.getBlockState(pos);
         if (state.getBlock() instanceof DoublePlantBlock && state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER) {
@@ -55,10 +55,10 @@ public class FloristsBonemealItem extends Item {
                 List<ItemStack> drops = Block.getDrops(state, (ServerWorld) world, pos, null);
                 for (ItemStack itemStack : drops) {
                     ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, itemStack);
-                    world.func_217376_c(entityItem);
+                    world.addEntity(entityItem);
                 }
 
-                if (!player.playerAbilities.isCreativeMode) {
+                if (!player.abilities.isCreativeMode) {
                     player.getHeldItem(hand).shrink(1);
                 }
 
@@ -89,7 +89,7 @@ public class FloristsBonemealItem extends Item {
                 }
             }
 
-            if (!player.playerAbilities.isCreativeMode) {
+            if (!player.abilities.isCreativeMode) {
                 player.getHeldItem(hand).shrink(1);
             }
 

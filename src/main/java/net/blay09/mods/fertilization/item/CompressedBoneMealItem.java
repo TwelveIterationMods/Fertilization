@@ -35,7 +35,7 @@ public class CompressedBoneMealItem extends Item {
         BlockPos pos = useContext.getPos();
         PlayerEntity player = useContext.getPlayer();
         BlockState state = world.getBlockState(pos);
-        Hand hand = useContext.func_221531_n();
+        Hand hand = useContext.getHand();
 
         if(player == null) {
             return ActionResultType.PASS;
@@ -68,7 +68,7 @@ public class CompressedBoneMealItem extends Item {
 
         world.playEvent(2005, pos, 0);
 
-        if (!player.playerAbilities.isCreativeMode) {
+        if (!player.abilities.isCreativeMode) {
             player.getHeldItem(hand).shrink(1);
         }
 

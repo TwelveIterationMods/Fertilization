@@ -26,7 +26,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
     @Override
     protected boolean place(Set<BlockPos> changedBlocks, IWorldGenerationReader world, Random rand, BlockPos pos, MutableBoundingBox boundingBox) {
-        boolean isJungleTree = field_76520_b.getBlock() == Blocks.JUNGLE_LOG;
+        boolean isJungleTree = trunk.getBlock() == Blocks.JUNGLE_LOG;
         int height = getHeight(rand);
 
         if (!func_203427_a(world, pos, height)) { // ensureGrowable
@@ -50,7 +50,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                 for (int j = 0; j < 8; j++) {
                     x = pos.getX() + (int) (1.5f + MathHelper.cos(f) * (float) j);
                     z = pos.getZ() + (int) (1.5f + MathHelper.sin(f) * (float) j);
-                    setLogState(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), field_76520_b, boundingBox);
+                    setLogState(changedBlocks, world, new BlockPos(x, y - 3 + j / 2, z), trunk, boundingBox);
                 }
 
                 int leavesStartY = 1 + rand.nextInt(2);
@@ -66,7 +66,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
 
             // Spawn the center wood block
             if (isAirOrLeaves(world, abovePos)) {
-                setLogState(changedBlocks, world, abovePos, field_76520_b, boundingBox);
+                setLogState(changedBlocks, world, abovePos, trunk, boundingBox);
             }
 
             // Spawn the outer lower logs
@@ -89,7 +89,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
                         }
 
                         if (isAirOrLeaves(world, currentPos)) {
-                            setLogState(changedBlocks, world, currentPos, field_76520_b, boundingBox);
+                            setLogState(changedBlocks, world, currentPos, trunk, boundingBox);
                         }
                     }
                 }
@@ -131,7 +131,7 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
     }
 
     private boolean isAirOrLeaves(IWorldGenerationReader world, BlockPos pos) {
-        return isAir(world, pos) || world.func_217375_a(pos, it -> it.getBlock() instanceof LeavesBlock);
+        return isAir(world, pos) || world.hasBlockState(pos, it -> it.getBlock() instanceof LeavesBlock);
     }
 
 }

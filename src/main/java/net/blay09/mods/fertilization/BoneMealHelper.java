@@ -10,9 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -114,7 +114,7 @@ public class BoneMealHelper {
 
                 ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + spawnOffsetY, pos.getZ() + 0.5, itemStack);
                 entityItem.setPickupDelay(10);
-                world.func_217376_c(entityItem);
+                world.addEntity(entityItem);
             }
         }
 
@@ -159,7 +159,7 @@ public class BoneMealHelper {
                 return null;
             }
 
-            return new ExtremeTree(new ExtremeTreeFeature(NoFeatureConfig::func_214639_a, true, 20, 10, logState, leavesState));
+            return new ExtremeTree(new ExtremeTreeFeature(NoFeatureConfig::deserialize, true, 20, 10, logState, leavesState));
         }
 
         return null;

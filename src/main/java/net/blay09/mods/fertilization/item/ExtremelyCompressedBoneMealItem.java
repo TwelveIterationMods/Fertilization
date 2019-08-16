@@ -43,7 +43,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
             if (tree != null) {
                 tree.spawn(world, pos, state, random);
 
-                if (!player.playerAbilities.isCreativeMode) {
+                if (!player.abilities.isCreativeMode) {
                     useContext.getItem().shrink(1);
                 }
             }

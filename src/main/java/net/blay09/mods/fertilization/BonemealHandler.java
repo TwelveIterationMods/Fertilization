@@ -52,7 +52,7 @@ public class BonemealHandler {
             world.playEvent(2005, event.getPos(), 0);
         }
 
-        if (!event.getEntityPlayer().playerAbilities.isCreativeMode) {
+        if (!event.getPlayer().abilities.isCreativeMode) {
             event.getItemStack().shrink(1);
         }
     }
