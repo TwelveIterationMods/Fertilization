@@ -99,14 +99,15 @@ public class FloristsBonemealItem extends Item {
         return ActionResultType.PASS;
     }
 
+    @SuppressWarnings("unchecked")
     private void plantFlower(World world, BlockPos pos, Random rand) {
         BlockState state;
-        List<ConfiguredFeature<?>> list = world.getBiome(pos).getFlowers();
+        List<ConfiguredFeature<?, ?>> list = world.func_226691_t_(pos).getFlowers();
         if (list.isEmpty()) {
             return;
         }
 
-        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).getRandomFlower(rand, pos);
+        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).func_225562_b_(rand, pos, list.get(0).config);
         if (state.isValidPosition(world, pos)) {
             world.setBlockState(pos, state, 3);
         }

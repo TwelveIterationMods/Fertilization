@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.gen.IWorldGenerationReader;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.HugeTreesFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
@@ -18,14 +19,14 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
-public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
+public class ExtremeTreeFeature extends HugeTreesFeature<BaseTreeFeatureConfig> {
 
-    public ExtremeTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean p_i51481_2_, int baseHeight, int extraRandomHeight, BlockState trunkState, BlockState leavesState) {
-        super(config, p_i51481_2_, baseHeight, extraRandomHeight, trunkState, leavesState);
+    public ExtremeTreeFeature(Function<Dynamic<?>, ? extends BaseTreeFeatureConfig> config) {
+        super(config);
     }
 
     @Override
-    protected boolean place(Set<BlockPos> changedBlocks, IWorldGenerationReader world, Random rand, BlockPos pos, MutableBoundingBox boundingBox) {
+    protected boolean func_225557_a_(IWorldGenerationReader world, Random rand, BlockPos pos, Set<BlockPos> changedBlocks, Set<BlockPos> changedBlocks2, MutableBoundingBox boundingBox, BaseTreeFeatureConfig config) {
         boolean isJungleTree = trunk.getBlock() == Blocks.JUNGLE_LOG;
         int height = getHeight(rand);
 
@@ -133,5 +134,4 @@ public class ExtremeTreeFeature extends HugeTreesFeature<NoFeatureConfig> {
     private boolean isAirOrLeaves(IWorldGenerationReader world, BlockPos pos) {
         return isAir(world, pos) || world.hasBlockState(pos, it -> it.getBlock() instanceof LeavesBlock);
     }
-
 }

@@ -13,6 +13,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
@@ -40,8 +41,8 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
             }
 
             Tree tree = BoneMealHelper.getExtremeTree(state);
-            if (tree != null) {
-                tree.spawn(world, pos, state, random);
+            if (tree != null && !world.isRemote) {
+                tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
 
                 if (!player.abilities.isCreativeMode) {
                     useContext.getItem().shrink(1);

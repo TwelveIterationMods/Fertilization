@@ -15,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class CompressedBoneMealItem extends Item {
 
@@ -37,7 +38,7 @@ public class CompressedBoneMealItem extends Item {
         BlockState state = world.getBlockState(pos);
         Hand hand = useContext.getHand();
 
-        if(player == null) {
+        if (player == null) {
             return ActionResultType.PASS;
         }
 
@@ -62,7 +63,7 @@ public class CompressedBoneMealItem extends Item {
             }
 
             if (isStem && !world.isRemote) {
-                state.getBlock().tick(state, world, pos, world.rand);
+                state.func_227033_a_((ServerWorld) world, pos, world.rand);
             }
         }
 
