@@ -1,9 +1,6 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.fertilization.worldgen.ExtremeTree;
-import net.blay09.mods.fertilization.worldgen.ExtremeTreeFeature;
 import net.minecraft.block.*;
-import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -11,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -26,7 +22,7 @@ import java.util.function.Supplier;
 
 public class BoneMealHelper {
 
-    public static Method getSeedMethod;
+    private static Method getSeedMethod;
 
     @Nullable
     public static Item getSeedFromCrop(BlockState state) {
@@ -129,40 +125,6 @@ public class BoneMealHelper {
         }
 
         return ItemStack.EMPTY;
-    }
-
-    @Nullable
-    public static Tree getExtremeTree(BlockState state) {
-        if (state.getBlock() instanceof SaplingBlock) {
-            Block block = state.getBlock();
-            BlockState logState;
-            BlockState leavesState;
-            if (block == Blocks.OAK_SAPLING) {
-                logState = Blocks.OAK_LOG.getDefaultState();
-                leavesState = Blocks.OAK_LEAVES.getDefaultState();
-            } else if (block == Blocks.SPRUCE_SAPLING) {
-                logState = Blocks.SPRUCE_LOG.getDefaultState();
-                leavesState = Blocks.SPRUCE_LEAVES.getDefaultState();
-            } else if (block == Blocks.DARK_OAK_SAPLING) {
-                logState = Blocks.DARK_OAK_LOG.getDefaultState();
-                leavesState = Blocks.DARK_OAK_LEAVES.getDefaultState();
-            } else if (block == Blocks.BIRCH_SAPLING) {
-                logState = Blocks.BIRCH_LOG.getDefaultState();
-                leavesState = Blocks.BIRCH_LEAVES.getDefaultState();
-            } else if (block == Blocks.JUNGLE_SAPLING) {
-                logState = Blocks.JUNGLE_LOG.getDefaultState();
-                leavesState = Blocks.JUNGLE_LEAVES.getDefaultState();
-            } else if (block == Blocks.ACACIA_SAPLING) {
-                logState = Blocks.ACACIA_LOG.getDefaultState();
-                leavesState = Blocks.ACACIA_LEAVES.getDefaultState();
-            } else {
-                return null;
-            }
-
-            return new ExtremeTree(new ExtremeTreeFeature(NoFeatureConfig::deserialize, true, 20, 10, logState, leavesState));
-        }
-
-        return null;
     }
 
     public static boolean isStemCrop(BlockState state) {

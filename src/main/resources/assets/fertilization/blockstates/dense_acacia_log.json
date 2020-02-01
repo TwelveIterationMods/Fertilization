@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y":    { "model": "fertilization:block/dense_acacia_log" },
+    "axis=z":     { "model": "fertilization:block/dense_acacia_log", "x": 90 },
+    "axis=x":     { "model": "fertilization:block/dense_acacia_log", "x": 90, "y": 90 }
+  }
+}

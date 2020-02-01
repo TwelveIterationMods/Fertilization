@@ -102,7 +102,7 @@ public class FloristsBonemealItem extends Item {
     @SuppressWarnings("unchecked")
     private void plantFlower(World world, BlockPos pos, Random rand) {
         BlockState state;
-        List<ConfiguredFeature<?, ?>> list = world.func_226691_t_(pos).getFlowers();
+        List<ConfiguredFeature<?, ?>> list = world.getBiome(pos).getFlowers();
         if (list.isEmpty()) {
             return;
         }

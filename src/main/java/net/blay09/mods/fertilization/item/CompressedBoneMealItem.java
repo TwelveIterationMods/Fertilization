@@ -63,7 +63,7 @@ public class CompressedBoneMealItem extends Item {
             }
 
             if (isStem && !world.isRemote) {
-                state.func_227033_a_((ServerWorld) world, pos, world.rand);
+                state.tick((ServerWorld) world, pos, world.rand);
             }
         }
 

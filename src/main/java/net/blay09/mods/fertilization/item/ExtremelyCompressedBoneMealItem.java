@@ -3,6 +3,7 @@ package net.blay09.mods.fertilization.item;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.Fertilization;
 import net.blay09.mods.fertilization.FertilizationConfig;
+import net.blay09.mods.fertilization.tree.TreeHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,7 +41,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
                 return ActionResultType.FAIL;
             }
 
-            Tree tree = BoneMealHelper.getExtremeTree(state);
+            Tree tree = TreeHelper.getDenseTree(state);
             if (tree != null && !world.isRemote) {
                 tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
 

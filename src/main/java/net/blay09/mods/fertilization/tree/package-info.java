@@ -1,6 +1,6 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-package net.blay09.mods.fertilization.worldgen;
+package net.blay09.mods.fertilization.tree;
 
 import mcp.MethodsReturnNonnullByDefault;
 
