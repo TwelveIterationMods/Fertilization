@@ -3,7 +3,6 @@ package net.blay09.mods.fertilization.item;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.Fertilization;
 import net.blay09.mods.fertilization.FertilizationConfig;
-import net.blay09.mods.fertilization.tree.TreeHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,14 +40,15 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
                 return ActionResultType.FAIL;
             }
 
-            Tree tree = TreeHelper.getDenseTree(state);
+            // TODO Spawn Fancy Tree
+            /*Tree tree = TreeHelper.getDenseTree(state);
             if (tree != null && !world.isRemote) {
                 tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
 
                 if (!player.abilities.isCreativeMode) {
                     useContext.getItem().shrink(1);
                 }
-            }
+            }*/
 
             return ActionResultType.SUCCESS;
         }

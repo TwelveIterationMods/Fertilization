@@ -1,8 +1,6 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.fertilization.block.ModBlocks;
 import net.blay09.mods.fertilization.item.ModItems;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -39,14 +37,8 @@ public class Fertilization {
     }
 
     @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        ModBlocks.registerBlocks(event.getRegistry());
-    }
-
-    @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         ModItems.registerItems(event.getRegistry());
-        ModBlocks.registerItemBlocks(event.getRegistry());
     }
 
 }

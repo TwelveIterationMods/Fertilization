@@ -107,7 +107,7 @@ public class FloristsBonemealItem extends Item {
             return;
         }
 
-        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).func_225562_b_(rand, pos, list.get(0).config);
+        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).getFlowerToPlace(rand, pos, list.get(0).config);
         if (state.isValidPosition(world, pos)) {
             world.setBlockState(pos, state, 3);
         }

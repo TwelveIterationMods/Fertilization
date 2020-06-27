@@ -20,7 +20,7 @@ public class FertilizationConfig {
         public final ForgeConfigSpec.ConfigValue<Integer> extremelyCompressedBoneMealPower;
         public final ForgeConfigSpec.ConfigValue<Integer> floristsBoneMealMaxFlowers;
         public final ForgeConfigSpec.ConfigValue<Integer> floristsBoneMealMaxRange;
-        public final ForgeConfigSpec.ConfigValue<List<String>> flowerBlocks;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> flowerBlocks;
 
         Common(ForgeConfigSpec.Builder builder) {
             builder.comment("Configuration for Fertilization").push("common");
@@ -73,7 +73,7 @@ public class FertilizationConfig {
             flowerBlocks = builder
                     .comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
                     .translation("fertilization.config.flowerBlocks")
-                    .define("flowerBlocks", Lists.newArrayList(
+                    .defineList("flowerBlocks", Lists.newArrayList(
                             "minecraft:poppy",
                             "minecraft:dandelion",
                             "minecraft:blue_orchid",
@@ -85,7 +85,7 @@ public class FertilizationConfig {
                             "minecraft:pink_tulip",
                             "minecraft_oxeye_daisy",
                             "minecraft:rose_bush",
-                            "minecraft:peony"));
+                            "minecraft:peony"), it -> it instanceof String);
         }
     }
 
