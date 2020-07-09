@@ -1,6 +1,7 @@
 package net.blay09.mods.fertilization;
 
 import net.minecraft.block.*;
+import net.minecraft.block.trees.Tree;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -52,8 +53,23 @@ public class BoneMealHelper {
         return state.getBlock() == Blocks.GRASS_BLOCK;
     }
 
-    public static boolean isSapling(BlockState state) {
-        return state.getBlock() instanceof SaplingBlock;
+    @Nullable
+    public static Tree getFancyTreeForSapling(BlockState state) {
+        if (state.getBlock() == Blocks.OAK_SAPLING) {
+            return new FancyTree(Blocks.OAK_LOG.getDefaultState(), Blocks.OAK_LEAVES.getDefaultState());
+        } else if(state.getBlock() == Blocks.SPRUCE_SAPLING) {
+            return new FancyTree(Blocks.SPRUCE_LOG.getDefaultState(), Blocks.SPRUCE_LEAVES.getDefaultState());
+        } else if(state.getBlock() == Blocks.BIRCH_SAPLING) {
+            return new FancyTree(Blocks.BIRCH_LOG.getDefaultState(), Blocks.BIRCH_LEAVES.getDefaultState());
+        } else if(state.getBlock() == Blocks.JUNGLE_SAPLING) {
+            return new FancyTree(Blocks.JUNGLE_LOG.getDefaultState(), Blocks.JUNGLE_LEAVES.getDefaultState());
+        } else if(state.getBlock() == Blocks.ACACIA_SAPLING) {
+            return new FancyTree(Blocks.ACACIA_LOG.getDefaultState(), Blocks.ACACIA_LEAVES.getDefaultState());
+        } else if(state.getBlock() == Blocks.DARK_OAK_SAPLING) {
+            return new FancyTree(Blocks.DARK_OAK_LOG.getDefaultState(), Blocks.DARK_OAK_LEAVES.getDefaultState());
+        }
+
+        return null;
     }
 
     public static boolean tryHarvest(@Nullable PlayerEntity player, World world, BlockPos pos) {

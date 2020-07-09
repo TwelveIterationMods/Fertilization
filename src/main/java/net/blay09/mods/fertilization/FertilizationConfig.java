@@ -13,7 +13,7 @@ public class FertilizationConfig {
     public static class Common {
         public final ForgeConfigSpec.BooleanValue addDropsDirectlyToInventory;
         public final ForgeConfigSpec.BooleanValue addDropsDirectlyToInventoryForFakePlayers;
-        public final ForgeConfigSpec.BooleanValue hugeTrees;
+        public final ForgeConfigSpec.BooleanValue allowBoneMealOnSaplings;
         public final ForgeConfigSpec.BooleanValue allowBoneMealOnVines;
         public final ForgeConfigSpec.BooleanValue allowBoneMealOnSugarCanes;
         public final ForgeConfigSpec.ConfigValue<Integer> compressedBoneMealPower;
@@ -35,10 +35,10 @@ public class FertilizationConfig {
                     .translation("fertilization.config.addDropsDirectlyToInventoryForFakePlayers")
                     .define("addDropsDirectlyToInventoryForFakePlayers", true);
 
-            hugeTrees = builder
-                    .comment("Set to true if Extremely Compressed Bone Meal should cause huge trees to grow.")
-                    .translation("fertilization.config.hugeTrees")
-                    .define("hugeTrees", true);
+            allowBoneMealOnSaplings = builder
+                    .comment("This enables use of extremely compressed bone meal to turn saplings into large fancy trees.")
+                    .translation("fertilization.config.allowBoneMealOnSaplings")
+                    .define("allowBoneMealOnSaplings", true);
 
             allowBoneMealOnVines = builder
                     .comment("This enables use of normal Bone Meal on vines in order to grow them downwards.")

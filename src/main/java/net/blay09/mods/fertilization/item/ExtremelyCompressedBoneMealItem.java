@@ -35,20 +35,19 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
         }
 
         BlockState state = world.getBlockState(pos);
-        if (FertilizationConfig.COMMON.hugeTrees.get() && BoneMealHelper.isSapling(state)) {
-            if (!ForgeEventFactory.saplingGrowTree(world, random, pos)) {
-                return ActionResultType.FAIL;
-            }
+        final Tree tree = BoneMealHelper.getFancyTreeForSapling(state);
+        if (FertilizationConfig.COMMON.allowBoneMealOnSaplings.get() && tree != null) {
+            if (!world.isRemote) {
+                if (!ForgeEventFactory.saplingGrowTree(world, random, pos)) {
+                    return ActionResultType.FAIL;
+                }
 
-            // TODO Spawn Fancy Tree
-            /*Tree tree = TreeHelper.getDenseTree(state);
-            if (tree != null && !world.isRemote) {
-                tree.func_225545_a_(world, ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
+                tree.func_230339_a_(((ServerWorld) world), ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
 
                 if (!player.abilities.isCreativeMode) {
                     useContext.getItem().shrink(1);
                 }
-            }*/
+            }
 
             return ActionResultType.SUCCESS;
         }
