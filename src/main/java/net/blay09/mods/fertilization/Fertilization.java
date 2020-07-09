@@ -22,7 +22,7 @@ public class Fertilization {
     public static ItemGroup itemGroup = new ItemGroup(MOD_ID) {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.compressedBonemeal);
+            return new ItemStack(ModItems.compressedBoneMeal);
         }
     };
 

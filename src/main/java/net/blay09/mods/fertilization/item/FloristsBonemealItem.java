@@ -17,9 +17,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
+import net.minecraft.world.gen.feature.FlowersFeature;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -48,22 +52,30 @@ public class FloristsBonemealItem extends Item {
             state = world.getBlockState(pos.down());
         }
 
+        if (applyBoneMeal(world, pos, state, player.getHeldItem(hand), player)) {
+            return ActionResultType.SUCCESS;
+        }
+
+        return ActionResultType.PASS;
+    }
+
+    public boolean applyBoneMeal(World world, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable PlayerEntity player) {
         if (FertilizationConfig.isFlowerBlock(state.getBlock())) {
             if (!world.isRemote) {
                 List<ItemStack> drops = Block.getDrops(state, (ServerWorld) world, pos, null);
-                for (ItemStack itemStack : drops) {
-                    ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, itemStack);
+                for (ItemStack drop : drops) {
+                    ItemEntity entityItem = new ItemEntity(world, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, drop);
                     world.addEntity(entityItem);
                 }
 
-                if (!player.abilities.isCreativeMode) {
-                    player.getHeldItem(hand).shrink(1);
+                if (player == null || !player.abilities.isCreativeMode) {
+                    itemStack.shrink(1);
                 }
 
                 world.playEvent(2005, pos, 0);
             }
 
-            return ActionResultType.SUCCESS;
+            return true;
         }
 
         if (BoneMealHelper.isGrassBlock(state)) {
@@ -87,14 +99,13 @@ public class FloristsBonemealItem extends Item {
                 }
             }
 
-            if (!player.abilities.isCreativeMode) {
-                player.getHeldItem(hand).shrink(1);
+            if (player == null || !player.abilities.isCreativeMode) {
+                itemStack.shrink(1);
             }
 
-            return ActionResultType.SUCCESS;
+            return true;
         }
-
-        return ActionResultType.PASS;
+        return false;
     }
 
     @SuppressWarnings("unchecked")

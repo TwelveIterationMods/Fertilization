@@ -56,7 +56,7 @@ public class BoneMealHelper {
         return state.getBlock() instanceof SaplingBlock;
     }
 
-    public static boolean tryHarvest(PlayerEntity player, World world, BlockPos pos) {
+    public static boolean tryHarvest(@Nullable PlayerEntity player, World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         if (tryHarvestGeneric(player, world, pos, state, it -> it.getBlock() instanceof CropsBlock && ((CropsBlock) it.getBlock()).isMaxAge(it), () -> ((CropsBlock) state.getBlock()).withAge(0), 0.25f)) {
             return true;
@@ -70,7 +70,7 @@ public class BoneMealHelper {
         return false;
     }
 
-    public static boolean tryHarvestGeneric(PlayerEntity player, World world, BlockPos pos, BlockState state, Predicate<BlockState> isMature, Supplier<BlockState> newCropState, float spawnOffsetY) {
+    public static boolean tryHarvestGeneric(@Nullable PlayerEntity player, World world, BlockPos pos, BlockState state, Predicate<BlockState> isMature, Supplier<BlockState> newCropState, float spawnOffsetY) {
         if (!isMature.test(state)) {
             return false;
         }
@@ -87,7 +87,7 @@ public class BoneMealHelper {
             }
         }
 
-        ItemStack seedInInventory = findSeedInInventory(player, seedItem);
+        ItemStack seedInInventory = player != null ? findSeedInInventory(player, seedItem) : ItemStack.EMPTY;
         if (!foundSeed && !seedInInventory.isEmpty()) {
             // If the crop did not drop a seed, try to find one in the player inventory and use that one instead.
             seedInInventory.shrink(1);
@@ -103,7 +103,7 @@ public class BoneMealHelper {
 
             for (ItemStack itemStack : drops) {
                 if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.COMMON.addDropsDirectlyToInventory.get() || (FertilizationConfig.COMMON.addDropsDirectlyToInventoryForFakePlayers.get() && player instanceof FakePlayer)) {
-                    if (player.inventory.addItemStackToInventory(itemStack)) {
+                    if (player != null && player.inventory.addItemStackToInventory(itemStack)) {
                         continue;
                     }
                 }
