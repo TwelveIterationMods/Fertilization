@@ -85,7 +85,11 @@ public class FertilizationConfig {
                             "minecraft:pink_tulip",
                             "minecraft_oxeye_daisy",
                             "minecraft:rose_bush",
-                            "minecraft:peony"), it -> it instanceof String);
+                            "minecraft:peony",
+                            "minecraft:lilac",
+                            "minecraft:sunflower",
+                            "minecraft:cornflower",
+                            "minecraft:lily_of_the_valley"), it -> it instanceof String);
         }
     }
 

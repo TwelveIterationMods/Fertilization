@@ -17,9 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.DecoratedFeatureConfig;
-import net.minecraft.world.gen.feature.FlowersFeature;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
@@ -107,7 +105,10 @@ public class FloristsBonemealItem extends Item {
             return;
         }
 
-        state = ((FlowersFeature)((DecoratedFeatureConfig) list.get(0).config).feature.feature).getFlowerToPlace(rand, pos, list.get(0).config);
+        final DecoratedFeatureConfig config = (DecoratedFeatureConfig) list.get(0).config;
+        final ConfiguredFeature<?, ?> feature = config.feature;
+        final FlowersFeature<BlockClusterFeatureConfig> flowerFeature = (FlowersFeature<BlockClusterFeatureConfig>) feature.feature;
+        state = flowerFeature.getFlowerToPlace(rand, pos, ((BlockClusterFeatureConfig) config.feature.config));
         if (state.isValidPosition(world, pos)) {
             world.setBlockState(pos, state, 3);
         }
