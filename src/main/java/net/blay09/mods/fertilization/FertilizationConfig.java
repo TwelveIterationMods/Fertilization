@@ -83,7 +83,7 @@ public class FertilizationConfig {
                             "minecraft:orange_tulip",
                             "minecraft:white_tulip",
                             "minecraft:pink_tulip",
-                            "minecraft_oxeye_daisy",
+                            "minecraft:oxeye_daisy",
                             "minecraft:rose_bush",
                             "minecraft:peony",
                             "minecraft:lilac",
