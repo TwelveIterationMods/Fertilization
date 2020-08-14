@@ -29,7 +29,7 @@ public class ModItems {
         DispenserBlock.registerDispenseBehavior(floristsBoneMeal, new OptionalDispenseBehavior() {
             @Override
             protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-                this.func_239796_a_(true);
+                this.setSuccessful(true);
                 World world = source.getWorld();
                 BlockPos pos = source.getBlockPos().offset(source.getBlockState().get(DispenserBlock.FACING));
                 BlockState state = world.getBlockState(pos);
@@ -41,7 +41,7 @@ public class ModItems {
                 }
 
                 if (!floristsBoneMeal.applyBoneMeal(world, pos, state, stack, null)) {
-                    this.func_239796_a_(false);
+                    this.setSuccessful(false);
                 }
 
                 return stack;
@@ -53,17 +53,17 @@ public class ModItems {
         DispenserBlock.registerDispenseBehavior(boneMealItem, new OptionalDispenseBehavior() {
             @Override
             protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-                this.func_239796_a_(true);
+                this.setSuccessful(true);
                 World world = source.getWorld();
                 BlockPos pos = source.getBlockPos().offset(source.getBlockState().get(DispenserBlock.FACING));
                 BlockState state = world.getBlockState(pos);
                 if (boneMealItem.applyBoneMeal(world, pos, state, stack, null) != ActionResultType.SUCCESS) {
-                    this.func_239796_a_(false);
+                    this.setSuccessful(false);
                 } else if (!world.isRemote) {
                     world.playEvent(2005, pos, 0);
                 }
 
-                if (this.func_239795_a_()) {
+                if (this.isSuccessful()) {
                     stack.shrink(1);
                 }
 

@@ -42,7 +42,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
                     return ActionResultType.FAIL;
                 }
 
-                tree.func_230339_a_(((ServerWorld) world), ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
+                tree.attemptGrowTree(((ServerWorld) world), ((ServerWorld) world).getChunkProvider().getChunkGenerator(), pos, state, random);
 
                 if (!player.abilities.isCreativeMode) {
                     useContext.getItem().shrink(1);

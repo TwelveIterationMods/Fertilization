@@ -3,6 +3,7 @@ loaderVersion="[24,)"
 issueTrackerURL="https://github.com/blay09/Fertilization/issues"
 displayURL="https://minecraft.curseforge.com/projects/fertilization"
 authors="BlayTheNinth"
+license="MIT"
 
 [[mods]]
 modId="fertilization"
