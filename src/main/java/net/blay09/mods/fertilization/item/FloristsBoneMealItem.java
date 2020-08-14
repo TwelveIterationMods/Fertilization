@@ -27,12 +27,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class FloristsBonemealItem extends Item {
+public class FloristsBoneMealItem extends Item {
 
     public static final String name = "florists_bonemeal";
     public static ResourceLocation registryName = new ResourceLocation(Fertilization.MOD_ID, name);
 
-    public FloristsBonemealItem() {
+    public FloristsBoneMealItem() {
         super(new Item.Properties().group(Fertilization.itemGroup));
     }
 
@@ -93,7 +93,7 @@ public class FloristsBonemealItem extends Item {
                 }
 
                 if (spawnedAnyFlower) {
-                    world.playEvent(2005, pos.up(), 0);
+                    world.playEvent(2005, pos, 0);
                 } else {
                     world.playEvent(2000, pos.up(), 4);
                 }

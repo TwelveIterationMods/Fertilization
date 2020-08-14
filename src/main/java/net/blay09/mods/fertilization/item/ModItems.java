@@ -15,13 +15,13 @@ public class ModItems {
 
     public static CompressedBoneMealItem compressedBoneMeal;
     public static ExtremelyCompressedBoneMealItem extremelyCompressedBoneMeal;
-    public static FloristsBonemealItem floristsBoneMeal;
+    public static FloristsBoneMealItem floristsBoneMeal;
 
     public static void registerItems(IForgeRegistry<Item> registry) {
         registry.registerAll(
                 compressedBoneMeal = ((CompressedBoneMealItem) new CompressedBoneMealItem().setRegistryName(CompressedBoneMealItem.registryName)),
                 extremelyCompressedBoneMeal = (ExtremelyCompressedBoneMealItem) new ExtremelyCompressedBoneMealItem().setRegistryName(ExtremelyCompressedBoneMealItem.registryName),
-                floristsBoneMeal = (FloristsBonemealItem) new FloristsBonemealItem().setRegistryName(FloristsBonemealItem.registryName)
+                floristsBoneMeal = (FloristsBoneMealItem) new FloristsBoneMealItem().setRegistryName(FloristsBoneMealItem.registryName)
         );
 
         registerBoneMealDispenseBehaviour(compressedBoneMeal);
