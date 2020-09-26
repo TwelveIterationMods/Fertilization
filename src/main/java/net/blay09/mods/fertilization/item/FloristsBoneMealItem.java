@@ -111,7 +111,7 @@ public class FloristsBoneMealItem extends Item {
     @SuppressWarnings("unchecked")
     private void plantFlower(World world, BlockPos pos, Random rand) {
         BlockState state;
-        List<ConfiguredFeature<?, ?>> list = world.getBiome(pos).func_242440_e().func_242496_b();
+        List<ConfiguredFeature<?, ?>> list = world.getBiome(pos).getGenerationSettings().getFlowerFeatures();
         if (list.isEmpty()) {
             return;
         }

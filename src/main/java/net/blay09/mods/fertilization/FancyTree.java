@@ -26,7 +26,7 @@ public class FancyTree extends Tree {
     @Nullable
     @Override
     protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random randomIn, boolean beePopulated) {
-        return Feature.field_236291_c_.withConfiguration(beePopulated ? getBeePopulatedTreeConfig() : getFancyTreeConfig());
+        return Feature.TREE.withConfiguration(beePopulated ? getBeePopulatedTreeConfig() : getFancyTreeConfig());
     }
 
     private BaseTreeFeatureConfig getFancyTreeConfig() {
