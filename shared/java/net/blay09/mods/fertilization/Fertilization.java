@@ -1,5 +1,6 @@
 package net.blay09.mods.fertilization;
 
+import net.blay09.mods.balm.event.BalmEvents;
 import net.blay09.mods.fertilization.item.ModItems;
 
 public class Fertilization {
@@ -10,7 +11,7 @@ public class Fertilization {
         FertilizationConfig.initialize();
         ModItems.initialize();
 
-        // TODO BonemealHandler
+        BalmEvents.onUseBlock(BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
     }
 
 }
