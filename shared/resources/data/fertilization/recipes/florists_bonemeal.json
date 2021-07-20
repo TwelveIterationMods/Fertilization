@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "fertilization:florists_bonemeal",
+    "count": 2
+  },
+  "pattern": [
+    "BF",
+    "FB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bone_meal"
+    },
+    "F": {
+      "tag": "fertilization:flower"
+    }
+  }
+}

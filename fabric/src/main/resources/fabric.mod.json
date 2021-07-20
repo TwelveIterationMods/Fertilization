@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "fertilization",
+  "version": "${version}",
+
+  "name": "Fertilization",
+  "description": "Adds additional variants of bone meal for all your fertilization needs.",
+  "authors": [
+    "BlayTheNinth"
+  ],
+  "contact": {
+    "homepage": "https://blay09.net/",
+    "sources": "https://github.com/ModdingForBlockheads/Fertilization",
+    "issues": "https://github.com/ModdingForBlockheads/Fertilization/issues"
+  },
+
+  "license": "All Rights Reserved",
+  "icon": "assets/fertilization/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.blay09.mods.fertilization.FabricFertilization"
+    ],
+    "client": [
+      "net.blay09.mods.fertilization.client.FabricFertilizationClient"
+    ],
+    "modmenu": [
+      "net.blay09.mods.fertilization.compat.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "fertilization.mixins.json"
+  ],
+  "depends": {
+    "cloth-config2": ">=5.0.34",
+    "balm-fabric": ">=1.3.0",
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/scGAfXC"
+      }
+    }
+  }
+}
