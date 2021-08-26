@@ -1,6 +1,6 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.entity.BalmPlayers;
+import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.fertilization.mixin.CropBlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -107,7 +107,7 @@ public class BoneMealHelper {
             level.setBlockAndUpdate(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
-                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.getActive().addDropsDirectlyToInventory || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && BalmPlayers.isFakePlayer(player)))
+                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.getActive().addDropsDirectlyToInventory || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && Balm.getHooks().isFakePlayer(player)))
                 {
                     if (player != null && player.getInventory().add(itemStack)) {
                         continue;

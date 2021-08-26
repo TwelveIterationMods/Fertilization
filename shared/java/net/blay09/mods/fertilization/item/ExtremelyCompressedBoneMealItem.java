@@ -1,6 +1,6 @@
 package net.blay09.mods.fertilization.item;
 
-import net.blay09.mods.balm.BalmHooks;
+import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
         final AbstractTreeGrower tree = BoneMealHelper.getFancyTreeForSapling(state);
         if (FertilizationConfig.getActive().allowBoneMealOnSaplings && tree != null) {
             if (!level.isClientSide) {
-                if (!BalmHooks.saplingGrowTree(level, level.random, pos)) {
+                if (!Balm.getHooks().saplingGrowTree(level, level.random, pos)) {
                     return InteractionResult.FAIL;
                 }
 

@@ -1,7 +1,7 @@
 package net.blay09.mods.fertilization.item;
 
-import net.blay09.mods.balm.BalmHooks;
-import net.blay09.mods.balm.item.BalmItem;
+import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.balm.api.item.BalmItem;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -63,7 +62,7 @@ public class CompressedBoneMealItem extends BalmItem {
         for (int i = 0; i < getBoneMealCount(); i++) {
             BoneMealHelper.tryHarvest(player, level, pos);
 
-            boolean boneMealApplied = BalmHooks.growCrop(boneMealStack, level, pos, player);
+            boolean boneMealApplied = Balm.getHooks().growCrop(boneMealStack, level, pos, player);
             if (!boneMealApplied && !isStem) {
                 break;
             }

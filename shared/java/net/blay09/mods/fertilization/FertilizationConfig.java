@@ -1,14 +1,14 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.config.BalmConfigHolder;
+import net.blay09.mods.balm.api.Balm;
 
 public class FertilizationConfig {
     public static FertilizationConfigData getActive() {
-        return BalmConfigHolder.getActive(FertilizationConfigData.class);
+        return Balm.getConfig().getActive(FertilizationConfigData.class);
     }
 
     public static void initialize() {
-        BalmConfigHolder.registerConfig(FertilizationConfigData.class, null);
+        Balm.getConfig().registerConfig(FertilizationConfigData.class, null);
     }
 
 }
