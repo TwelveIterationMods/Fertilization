@@ -15,7 +15,7 @@
   },
 
   "license": "All Rights Reserved",
-  "icon": "assets/fertilization/icon.png",
+  "icon": "fertilization-icon.png",
 
   "environment": "*",
   "entrypoints": {

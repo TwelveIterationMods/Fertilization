@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[37,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/ModdingForBlockheads/Fertilization/issues"
+[[mods]]
+modId="fertilization"
+version="${file.jarVersion}"
+displayName="Fertilization"
+displayURL="https://blay09.net/mods/fertilization"
+logoFile="fertilization-icon.png"
+credits="BlayTheNinth"
+authors="BlayTheNinth"
+description='''
+Adds additional variants of bone meal for all your fertilization needs.
+'''
+[[dependencies.fertilization]]
+    modId="forge"
+    mandatory=true
+    versionRange="[37,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fertilization]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.17.1,1.18)"
+    ordering="NONE"
+    side="BOTH"
