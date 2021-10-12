@@ -14,6 +14,8 @@ public class Fertilization {
         ModItems.initialize(Balm.getItems());
 
         Balm.getEvents().onEvent(UseBlockEvent.class, BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
+
+        Balm.initialize(Fertilization.MOD_ID);
     }
 
 }
