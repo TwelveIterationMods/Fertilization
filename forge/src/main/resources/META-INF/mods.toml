@@ -25,3 +25,9 @@ Adds additional variants of bone meal for all your fertilization needs.
     versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.fertilization]]
+    modId="balm"
+    mandatory=true
+    versionRange="[1.6.0,)"
+    ordering="NONE"
+    side="BOTH"
