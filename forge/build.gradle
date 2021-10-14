@@ -115,7 +115,7 @@ sourceSets {
             srcDirs '../shared/src/resources/'
             srcDirs 'src/generated/resources'
         }
-		ext.refMap = "refmap.fertilization.json"
+		ext.refMap = "fertilization.refmap.json"
 	}
 }
 
@@ -136,6 +136,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
     implementation fg.deobf("net.blay09.mods:balm:1.6.0+74")
 
