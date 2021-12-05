@@ -4,7 +4,7 @@ Minecraft Mod. Adds additional variants of bone meal for all your fertilization 
 
 See [the license](LICENSE) for modpack permissions etc.
 
-This mod is available for both Forge and Fabric (starting Minecraft 1.17). This is a trial run to see if supporting both platforms is feasible.
+This mod is available for both Forge and Fabric (starting Minecraft 1.17).
 
 #### Forge
 
@@ -12,7 +12,7 @@ This mod is available for both Forge and Fabric (starting Minecraft 1.17). This 
 
 #### Fabric
 
-[![Versions](http://cf.way2muchnoise.eu/versions/_latest.svg)](https://minecraft.curseforge.com/projects/fertilization-fabric) [![Downloads](http://cf.way2muchnoise.eu/full__downloads.svg)](https://minecraft.curseforge.com/projects/fertilization-fabric)
+[![Versions](http://cf.way2muchnoise.eu/versions/506759_latest.svg)](https://minecraft.curseforge.com/projects/fertilization-fabric) [![Downloads](http://cf.way2muchnoise.eu/full_506759_downloads.svg)](https://minecraft.curseforge.com/projects/fertilization-fabric)
 
 ## Contributing
 
