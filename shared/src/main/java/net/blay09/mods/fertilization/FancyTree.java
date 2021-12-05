@@ -20,12 +20,10 @@ import java.util.Random;
 public class FancyTree extends AbstractTreeGrower {
     private final BlockState logState;
     private final BlockState leavesState;
-    private final BlockState saplingState;
 
-    public FancyTree(BlockState logState, BlockState leavesState, BlockState saplingState) {
+    public FancyTree(BlockState logState, BlockState leavesState) {
         this.logState = logState;
         this.leavesState = leavesState;
-        this.saplingState = saplingState;
     }
 
     @Nullable
@@ -34,20 +32,22 @@ public class FancyTree extends AbstractTreeGrower {
         return Feature.TREE.configured(beePopulated ? getBeePopulatedTreeConfig() : getFancyTreeConfig());
     }
 
-    private TreeConfiguration getFancyTreeConfig() {
+    private TreeConfiguration.TreeConfigurationBuilder getFancyTreeConfigBuilder() {
         final FancyFoliagePlacer foliagePlacer = new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4);
         return (new TreeConfiguration.TreeConfigurationBuilder(
-                new SimpleStateProvider(logState),
+                SimpleStateProvider.simple(logState),
                 new FancyTrunkPlacer(3, 11, 0),
-                new SimpleStateProvider(leavesState),
-                new SimpleStateProvider(saplingState),
+                SimpleStateProvider.simple(leavesState),
                 foliagePlacer,
                 new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))))
-                .ignoreVines()
-                .build();
+                .ignoreVines();
+    }
+
+    private TreeConfiguration getFancyTreeConfig() {
+        return getFancyTreeConfigBuilder().build();
     }
 
     private TreeConfiguration getBeePopulatedTreeConfig() {
-        return getFancyTreeConfig().withDecorators(ImmutableList.of(new BeehiveDecorator(0.05f)));
+        return getFancyTreeConfigBuilder().decorators(ImmutableList.of(new BeehiveDecorator(0.05f))).build();
     }
 }

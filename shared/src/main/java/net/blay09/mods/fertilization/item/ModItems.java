@@ -1,7 +1,6 @@
 package net.blay09.mods.fertilization.item;
 
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.item.BalmItem;
 import net.blay09.mods.balm.api.item.BalmItems;
 import net.blay09.mods.fertilization.Fertilization;
 import net.minecraft.core.BlockPos;

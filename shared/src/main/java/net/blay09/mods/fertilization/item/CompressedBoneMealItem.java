@@ -1,7 +1,6 @@
 package net.blay09.mods.fertilization.item;
 
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.item.BalmItem;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
@@ -9,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class CompressedBoneMealItem extends BalmItem {
+public class CompressedBoneMealItem extends Item {
 
     public CompressedBoneMealItem(Properties properties) {
         super(properties);

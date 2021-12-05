@@ -45,17 +45,17 @@ public class BoneMealHelper {
     @Nullable
     public static AbstractTreeGrower getFancyTreeForSapling(BlockState state) {
         if (state.getBlock() == Blocks.OAK_SAPLING) {
-            return new FancyTree(Blocks.OAK_LOG.defaultBlockState(), Blocks.OAK_LEAVES.defaultBlockState(), Blocks.OAK_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.OAK_LOG.defaultBlockState(), Blocks.OAK_LEAVES.defaultBlockState());
         } else if (state.getBlock() == Blocks.SPRUCE_SAPLING) {
-            return new FancyTree(Blocks.SPRUCE_LOG.defaultBlockState(), Blocks.SPRUCE_LEAVES.defaultBlockState(), Blocks.SPRUCE_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.SPRUCE_LOG.defaultBlockState(), Blocks.SPRUCE_LEAVES.defaultBlockState());
         } else if (state.getBlock() == Blocks.BIRCH_SAPLING) {
-            return new FancyTree(Blocks.BIRCH_LOG.defaultBlockState(), Blocks.BIRCH_LEAVES.defaultBlockState(), Blocks.BIRCH_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.BIRCH_LOG.defaultBlockState(), Blocks.BIRCH_LEAVES.defaultBlockState());
         } else if (state.getBlock() == Blocks.JUNGLE_SAPLING) {
-            return new FancyTree(Blocks.JUNGLE_LOG.defaultBlockState(), Blocks.JUNGLE_LEAVES.defaultBlockState(), Blocks.JUNGLE_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.JUNGLE_LOG.defaultBlockState(), Blocks.JUNGLE_LEAVES.defaultBlockState());
         } else if (state.getBlock() == Blocks.ACACIA_SAPLING) {
-            return new FancyTree(Blocks.ACACIA_LOG.defaultBlockState(), Blocks.ACACIA_LEAVES.defaultBlockState(), Blocks.ACACIA_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.ACACIA_LOG.defaultBlockState(), Blocks.ACACIA_LEAVES.defaultBlockState());
         } else if (state.getBlock() == Blocks.DARK_OAK_SAPLING) {
-            return new FancyTree(Blocks.DARK_OAK_LOG.defaultBlockState(), Blocks.DARK_OAK_LEAVES.defaultBlockState(), Blocks.DARK_OAK_SAPLING.defaultBlockState());
+            return new FancyTree(Blocks.DARK_OAK_LOG.defaultBlockState(), Blocks.DARK_OAK_LEAVES.defaultBlockState());
         }
 
         return null;
