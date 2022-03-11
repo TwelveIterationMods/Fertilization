@@ -3,6 +3,8 @@ package net.blay09.mods.fertilization.item;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -27,9 +30,30 @@ import java.util.Random;
 
 public class FloristsBoneMealItem extends Item {
 
-
     public FloristsBoneMealItem(Properties properties) {
         super(properties);
+
+        DispenserBlock.registerBehavior(this, new OptionalDispenseItemBehavior() {
+            @Override
+            protected ItemStack execute(BlockSource source, ItemStack itemStack) {
+                this.setSuccess(true);
+                Level level = source.getLevel();
+                BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                BlockState state = level.getBlockState(pos);
+
+                // When facing air, target the block below instead to spawn flowers nearby
+                if (state.isAir()) {
+                    pos = pos.below();
+                    state = level.getBlockState(pos);
+                }
+
+                if (!applyBoneMeal(level, pos, state, itemStack, null)) {
+                    this.setSuccess(false);
+                }
+
+                return itemStack;
+            }
+        });
     }
 
     @Override
@@ -105,14 +129,14 @@ public class FloristsBoneMealItem extends Item {
     }
 
     private void plantFlower(ServerLevel level, BlockPos pos, Random rand) {
-        List<ConfiguredFeature<?, ?>> list = level.getBiome(pos).getGenerationSettings().getFlowerFeatures();
+        List<ConfiguredFeature<?, ?>> list = level.getBiome(pos).value().getGenerationSettings().getFlowerFeatures();
         if (list.isEmpty()) {
             return;
         }
 
         ConfiguredFeature<?, ?> configuredFeature = list.get(0);
         FeatureConfiguration config = configuredFeature.config();
-        PlacedFeature placedFeature = ((RandomPatchConfiguration) config).feature().get();
+        PlacedFeature placedFeature = ((RandomPatchConfiguration) config).feature().value();
         placedFeature.place(level, level.getChunkSource().getGenerator(), rand, pos);
     }
 }

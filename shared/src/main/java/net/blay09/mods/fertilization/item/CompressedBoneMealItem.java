@@ -20,6 +20,7 @@ public class CompressedBoneMealItem extends Item {
 
     public CompressedBoneMealItem(Properties properties) {
         super(properties);
+        ModItems.registerBoneMealDispenseBehaviour(this);
     }
 
     @Override

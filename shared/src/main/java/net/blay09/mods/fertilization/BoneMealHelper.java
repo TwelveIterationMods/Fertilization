@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,25 +39,6 @@ public class BoneMealHelper {
 
     public static boolean isGrassBlock(BlockState state) {
         return state.getBlock() == Blocks.GRASS_BLOCK;
-    }
-
-    @Nullable
-    public static AbstractTreeGrower getFancyTreeForSapling(BlockState state) {
-        if (state.getBlock() == Blocks.OAK_SAPLING) {
-            return new FancyTree(Blocks.OAK_LOG.defaultBlockState(), Blocks.OAK_LEAVES.defaultBlockState());
-        } else if (state.getBlock() == Blocks.SPRUCE_SAPLING) {
-            return new FancyTree(Blocks.SPRUCE_LOG.defaultBlockState(), Blocks.SPRUCE_LEAVES.defaultBlockState());
-        } else if (state.getBlock() == Blocks.BIRCH_SAPLING) {
-            return new FancyTree(Blocks.BIRCH_LOG.defaultBlockState(), Blocks.BIRCH_LEAVES.defaultBlockState());
-        } else if (state.getBlock() == Blocks.JUNGLE_SAPLING) {
-            return new FancyTree(Blocks.JUNGLE_LOG.defaultBlockState(), Blocks.JUNGLE_LEAVES.defaultBlockState());
-        } else if (state.getBlock() == Blocks.ACACIA_SAPLING) {
-            return new FancyTree(Blocks.ACACIA_LOG.defaultBlockState(), Blocks.ACACIA_LEAVES.defaultBlockState());
-        } else if (state.getBlock() == Blocks.DARK_OAK_SAPLING) {
-            return new FancyTree(Blocks.DARK_OAK_LOG.defaultBlockState(), Blocks.DARK_OAK_LEAVES.defaultBlockState());
-        }
-
-        return null;
     }
 
     public static boolean tryHarvest(@Nullable Player player, Level level, BlockPos pos) {

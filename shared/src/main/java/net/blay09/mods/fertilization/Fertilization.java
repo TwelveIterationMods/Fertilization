@@ -12,10 +12,9 @@ public class Fertilization {
         FertilizationConfig.initialize();
 
         ModItems.initialize(Balm.getItems());
+        ModWorldGen.initialize(Balm.getWorldGen());
 
         Balm.getEvents().onEvent(UseBlockEvent.class, BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
-
-        Balm.initialize(Fertilization.MOD_ID);
     }
 
 }
