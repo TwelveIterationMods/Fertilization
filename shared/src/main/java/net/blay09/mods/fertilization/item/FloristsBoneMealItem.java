@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Random;
 
 public class FloristsBoneMealItem extends Item {
 
@@ -100,7 +100,7 @@ public class FloristsBoneMealItem extends Item {
 
         if (BoneMealHelper.isGrassBlock(state)) {
             if (!level.isClientSide) {
-                Random random = level.random;
+                RandomSource random = level.random;
                 final int tries = FertilizationConfig.getActive().floristsBoneMealMaxFlowers;
                 final int range = FertilizationConfig.getActive().floristsBoneMealMaxRange;
                 boolean spawnedAnyFlower = false;
@@ -128,7 +128,7 @@ public class FloristsBoneMealItem extends Item {
         return false;
     }
 
-    private void plantFlower(ServerLevel level, BlockPos pos, Random rand) {
+    private void plantFlower(ServerLevel level, BlockPos pos, RandomSource rand) {
         List<ConfiguredFeature<?, ?>> list = level.getBiome(pos).value().getGenerationSettings().getFlowerFeatures();
         if (list.isEmpty()) {
             return;

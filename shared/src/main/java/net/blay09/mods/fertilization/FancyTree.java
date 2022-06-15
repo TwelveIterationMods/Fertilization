@@ -1,11 +1,10 @@
 package net.blay09.mods.fertilization;
 
 import net.minecraft.core.Holder;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class FancyTree extends AbstractTreeGrower {
     private final ConfiguredFeature<?, ?> configuredFeature;
@@ -18,7 +17,7 @@ public class FancyTree extends AbstractTreeGrower {
 
     @Nullable
     @Override
-    protected Holder<ConfiguredFeature<?, ?>> getConfiguredFeature(Random random, boolean beePopulated) {
+    protected Holder<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean beePopulated) {
         return beePopulated ? Holder.direct(configuredFeatureBees) : Holder.direct(configuredFeature);
     }
 
