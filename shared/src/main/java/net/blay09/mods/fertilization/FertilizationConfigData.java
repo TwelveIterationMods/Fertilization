@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.annotation.Config;
 import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -60,7 +61,7 @@ public class FertilizationConfigData implements BalmConfigData {
             "minecraft:lily_of_the_valley");
 
     public boolean isFlowerBlock(Block block) {
-        ResourceLocation registryName = Registry.BLOCK.getKey(block);
+        ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(block);
         return flowerBlocks.contains(registryName.toString());
     }
 

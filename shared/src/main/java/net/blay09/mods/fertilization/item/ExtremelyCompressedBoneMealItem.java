@@ -5,6 +5,8 @@ import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.blay09.mods.fertilization.ModWorldGen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
 
@@ -34,11 +37,9 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
         final AbstractTreeGrower tree = ModWorldGen.getFancyTreeForSapling(state);
         if (FertilizationConfig.getActive().allowBoneMealOnSaplings && tree != null) {
             if (!level.isClientSide) {
-                if (!Balm.getHooks().saplingGrowTree(level, level.random, pos)) {
+                if (!tree.growTree(((ServerLevel) level), ((ServerLevel) level).getChunkSource().getGenerator(), pos, state, level.random)) {
                     return InteractionResult.FAIL;
                 }
-
-                tree.growTree(((ServerLevel) level), ((ServerLevel) level).getChunkSource().getGenerator(), pos, state, level.random);
 
                 if (!player.getAbilities().instabuild) {
                     context.getItemInHand().shrink(1);
