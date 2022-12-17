@@ -16,16 +16,16 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ModItems {
 
-    public static CreativeModeTab creativeModeTab = Balm.getItems().createCreativeModeTab(id("fertilization"), () -> new ItemStack(ModItems.compressedBoneMeal));
-
     public static CompressedBoneMealItem compressedBoneMeal;
     public static ExtremelyCompressedBoneMealItem extremelyCompressedBoneMeal;
     public static FloristsBoneMealItem floristsBoneMeal;
 
     public static void initialize(BalmItems items) {
-        items.registerItem(() -> compressedBoneMeal = new CompressedBoneMealItem(Balm.getItems().itemProperties(creativeModeTab)), id("compressed_bonemeal"));
-        items.registerItem(() -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(Balm.getItems().itemProperties(creativeModeTab)), id("extremely_compressed_bonemeal"));
-        items.registerItem(() -> floristsBoneMeal = new FloristsBoneMealItem(Balm.getItems().itemProperties(creativeModeTab)), id("florists_bonemeal"));
+        items.registerItem(() -> compressedBoneMeal = new CompressedBoneMealItem(items.itemProperties()), id("compressed_bonemeal"));
+        items.registerItem(() -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(items.itemProperties()), id("extremely_compressed_bonemeal"));
+        items.registerItem(() -> floristsBoneMeal = new FloristsBoneMealItem(items.itemProperties()), id("florists_bonemeal"));
+
+        items.registerCreativeModeTab(id("fertilization"), () -> new ItemStack(ModItems.compressedBoneMeal));
     }
 
     public static void registerBoneMealDispenseBehaviour(CompressedBoneMealItem boneMealItem) {
