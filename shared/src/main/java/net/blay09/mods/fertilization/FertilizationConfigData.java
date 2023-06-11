@@ -1,17 +1,16 @@
 package net.blay09.mods.fertilization;
 
 import com.google.common.collect.Lists;
-import me.shedaniel.autoconfig.annotation.Config;
 import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
-import net.minecraft.core.Registry;
+import net.blay09.mods.balm.api.config.Config;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
-@Config(name = Fertilization.MOD_ID)
+@Config(Fertilization.MOD_ID)
 public class FertilizationConfigData implements BalmConfigData {
 
     @Comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
