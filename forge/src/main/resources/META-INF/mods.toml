@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="${forge_loader_version_range}"
 license="All rights reserved"
 issueTrackerURL="https://github.com/TwelveIterationMods/Fertilization/issues"
 
@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/TwelveIterationMods/Fertilization/issues"
 modId="fertilization"
 version="${file.jarVersion}"
 displayName="Fertilization"
-displayURL="https://blay09.net/mods/fertilization"
+displayURL="https://mods.twelveiterations.com/mc/fertilization"
 logoFile="fertilization-icon.png"
 credits="BlayTheNinth"
 authors="BlayTheNinth"
@@ -18,18 +18,18 @@ Adds additional variants of bone meal for all your fertilization needs.
 [[dependencies.fertilization]]
     modId="forge"
     mandatory=true
-    versionRange="[44,)"
+    versionRange="${forge_version_range}"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fertilization]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fertilization]]
     modId="balm"
     mandatory=true
-    versionRange="[5.0.0,)"
+    versionRange="${balm_version_range}"
     ordering="NONE"
     side="BOTH"
