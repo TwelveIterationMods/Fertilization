@@ -1,14 +1,12 @@
 package net.blay09.mods.fertilization.item;
 
-import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.item.BalmItems;
 import net.blay09.mods.fertilization.Fertilization;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -33,8 +31,8 @@ public class ModItems {
             @Override
             protected ItemStack execute(BlockSource source, ItemStack itemStack) {
                 this.setSuccess(true);
-                Level level = source.getLevel();
-                BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                Level level = source.level();
+                BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 BlockState state = level.getBlockState(pos);
                 if (boneMealItem.applyBoneMeal(level, pos, state, itemStack, null) != InteractionResult.SUCCESS) {
                     this.setSuccess(false);

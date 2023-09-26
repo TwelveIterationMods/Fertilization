@@ -3,7 +3,7 @@ package net.blay09.mods.fertilization.item;
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -37,8 +37,8 @@ public class FloristsBoneMealItem extends Item {
             @Override
             protected ItemStack execute(BlockSource source, ItemStack itemStack) {
                 this.setSuccess(true);
-                Level level = source.getLevel();
-                BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+                Level level = source.level();
+                BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
                 BlockState state = level.getBlockState(pos);
 
                 // When facing air, target the block below instead to spawn flowers nearby
