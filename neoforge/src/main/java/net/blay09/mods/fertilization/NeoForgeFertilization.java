@@ -1,11 +1,12 @@
 package net.blay09.mods.fertilization;
 
 import net.blay09.mods.balm.api.Balm;
-import net.fabricmc.api.ModInitializer;
+import net.neoforged.fml.common.Mod;
 
-public class FabricFertilization implements ModInitializer {
-    @Override
-    public void onInitialize() {
+@Mod(Fertilization.MOD_ID)
+public class NeoForgeFertilization {
+    public NeoForgeFertilization() {
         Balm.initialize(Fertilization.MOD_ID, Fertilization::initialize);
     }
+
 }

@@ -1,4 +1,4 @@
-package net.blay09.mods.fertilization.client;
+package net.blay09.mods.fertilization.fabric.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
