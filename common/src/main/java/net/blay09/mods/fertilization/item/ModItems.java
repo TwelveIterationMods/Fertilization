@@ -23,7 +23,7 @@ public class ModItems {
         items.registerItem(() -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(items.itemProperties()), id("extremely_compressed_bonemeal"));
         items.registerItem(() -> floristsBoneMeal = new FloristsBoneMealItem(items.itemProperties()), id("florists_bonemeal"));
 
-        items.registerCreativeModeTab(id("fertilization"), () -> new ItemStack(ModItems.compressedBoneMeal));
+        items.registerCreativeModeTab(() -> new ItemStack(ModItems.compressedBoneMeal), id("fertilization"));
     }
 
     public static void registerBoneMealDispenseBehaviour(CompressedBoneMealItem boneMealItem) {
