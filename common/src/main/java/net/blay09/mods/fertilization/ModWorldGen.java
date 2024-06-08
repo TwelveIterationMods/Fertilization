@@ -38,7 +38,7 @@ public class ModWorldGen {
     }
 
     private static ResourceLocation id(String name) {
-        return new ResourceLocation(Fertilization.MOD_ID, name);
+        return ResourceLocation.fromNamespaceAndPath(Fertilization.MOD_ID, name);
     }
 
 }
