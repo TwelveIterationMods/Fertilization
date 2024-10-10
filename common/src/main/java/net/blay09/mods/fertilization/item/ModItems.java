@@ -5,8 +5,11 @@ import net.blay09.mods.fertilization.Fertilization;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -19,9 +22,9 @@ public class ModItems {
     public static FloristsBoneMealItem floristsBoneMeal;
 
     public static void initialize(BalmItems items) {
-        items.registerItem(() -> compressedBoneMeal = new CompressedBoneMealItem(items.itemProperties()), id("compressed_bonemeal"));
-        items.registerItem(() -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(items.itemProperties()), id("extremely_compressed_bonemeal"));
-        items.registerItem(() -> floristsBoneMeal = new FloristsBoneMealItem(items.itemProperties()), id("florists_bonemeal"));
+        items.registerItem((identifier) -> compressedBoneMeal = new CompressedBoneMealItem(defaultProperties(identifier)), id("compressed_bonemeal"));
+        items.registerItem((identifier) -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(defaultProperties(identifier)), id("extremely_compressed_bonemeal"));
+        items.registerItem((identifier) -> floristsBoneMeal = new FloristsBoneMealItem(defaultProperties(identifier)), id("florists_bonemeal"));
 
         items.registerCreativeModeTab(() -> new ItemStack(ModItems.compressedBoneMeal), id("fertilization"));
     }
@@ -53,4 +56,11 @@ public class ModItems {
         return ResourceLocation.fromNamespaceAndPath(Fertilization.MOD_ID, name);
     }
 
+    private static ResourceKey<Item> itemId(ResourceLocation identifier) {
+        return ResourceKey.create(Registries.ITEM, identifier);
+    }
+
+    private static Item.Properties defaultProperties(ResourceLocation identifier) {
+        return new Item.Properties().setId(itemId(identifier));
+    }
 }

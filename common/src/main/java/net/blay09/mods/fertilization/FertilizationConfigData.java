@@ -1,14 +1,14 @@
 package net.blay09.mods.fertilization;
 
-import com.google.common.collect.Lists;
 import net.blay09.mods.balm.api.config.BalmConfigData;
 import net.blay09.mods.balm.api.config.Comment;
 import net.blay09.mods.balm.api.config.Config;
+import net.blay09.mods.balm.api.config.ExpectedType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import java.util.Set;
 
 @Config(Fertilization.MOD_ID)
 public class FertilizationConfigData implements BalmConfigData {
@@ -41,27 +41,28 @@ public class FertilizationConfigData implements BalmConfigData {
     public int floristsBoneMealMaxRange = 3;
 
     @Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
-    public List<String> flowerBlocks = Lists.newArrayList(
-            "minecraft:poppy",
-            "minecraft:dandelion",
-            "minecraft:blue_orchid",
-            "minecraft:allium",
-            "minecraft:azure_bluet",
-            "minecraft:red_tulip",
-            "minecraft:orange_tulip",
-            "minecraft:white_tulip",
-            "minecraft:pink_tulip",
-            "minecraft:oxeye_daisy",
-            "minecraft:rose_bush",
-            "minecraft:peony",
-            "minecraft:lilac",
-            "minecraft:sunflower",
-            "minecraft:cornflower",
-            "minecraft:lily_of_the_valley");
+    @ExpectedType(ResourceLocation.class)
+    public Set<ResourceLocation> flowerBlocks = Set.of(
+            ResourceLocation.withDefaultNamespace("poppy"),
+            ResourceLocation.withDefaultNamespace("dandelion"),
+            ResourceLocation.withDefaultNamespace("blue_orchid"),
+            ResourceLocation.withDefaultNamespace("allium"),
+            ResourceLocation.withDefaultNamespace("azure_bluet"),
+            ResourceLocation.withDefaultNamespace("red_tulip"),
+            ResourceLocation.withDefaultNamespace("orange_tulip"),
+            ResourceLocation.withDefaultNamespace("white_tulip"),
+            ResourceLocation.withDefaultNamespace("pink_tulip"),
+            ResourceLocation.withDefaultNamespace("oxeye_daisy"),
+            ResourceLocation.withDefaultNamespace("rose_bush"),
+            ResourceLocation.withDefaultNamespace("peony"),
+            ResourceLocation.withDefaultNamespace("lilac"),
+            ResourceLocation.withDefaultNamespace("sunflower"),
+            ResourceLocation.withDefaultNamespace("cornflower"),
+            ResourceLocation.withDefaultNamespace("lily_of_the_valley"));
 
     public boolean isFlowerBlock(Block block) {
-        ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(block);
-        return flowerBlocks.contains(registryName.toString());
+        final var id = BuiltInRegistries.BLOCK.getKey(block);
+        return flowerBlocks.contains(id);
     }
 
 }
