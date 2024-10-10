@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "item": "minecraft:bone_meal"
-    }
+    "B": "minecraft:bone_meal"
   },
   "pattern": [
     "BB",

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "item": "fertilization:compressed_bonemeal"
-    }
+    "B": "fertilization:compressed_bonemeal"
   },
   "pattern": [
     "BBB",
