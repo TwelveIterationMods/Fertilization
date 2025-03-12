@@ -43,12 +43,24 @@ public class BoneMealHelper {
 
     public static boolean tryHarvest(@Nullable Player player, Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        if (tryHarvestGeneric(player, level, pos, state, it -> it.getBlock() instanceof CropBlock && ((CropBlock) it.getBlock()).isMaxAge(it), () -> ((CropBlock) state.getBlock()).getStateForAge(0), 0.25f)) {
+        if (tryHarvestGeneric(player,
+                level,
+                pos,
+                state,
+                it -> it.getBlock() instanceof CropBlock && ((CropBlock) it.getBlock()).isMaxAge(it),
+                () -> ((CropBlock) state.getBlock()).getStateForAge(0),
+                0.25f)) {
             return true;
         }
 
         //noinspection RedundantIfStatement
-        if (tryHarvestGeneric(player, level, pos, state, it -> it.getBlock() == Blocks.COCOA && it.getValue(CocoaBlock.AGE) >= 2, Blocks.COCOA::defaultBlockState, -0.75f)) {
+        if (tryHarvestGeneric(player,
+                level,
+                pos,
+                state,
+                it -> it.getBlock() == Blocks.COCOA && it.getValue(CocoaBlock.AGE) >= 2,
+                Blocks.COCOA::defaultBlockState,
+                -0.75f)) {
             return true;
         }
 
@@ -63,6 +75,10 @@ public class BoneMealHelper {
         List<ItemStack> drops = level instanceof ServerLevel ? Block.getDrops(state, (ServerLevel) level, pos, null) : Collections.emptyList();
 
         Item seedItem = getSeedFromCrop(state);
+        if (seedItem == null) {
+            return false;
+        }
+
         boolean foundSeed = false;
         for (ItemStack itemStack : drops) {
             if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
@@ -87,8 +103,8 @@ public class BoneMealHelper {
             level.setBlockAndUpdate(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
-                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.getActive().addDropsDirectlyToInventory || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && Balm.getHooks().isFakePlayer(player)))
-                {
+                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.getActive().addDropsDirectlyToInventory || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && Balm.getHooks()
+                        .isFakePlayer(player))) {
                     if (player != null && player.getInventory().add(itemStack)) {
                         continue;
                     }
@@ -103,11 +119,10 @@ public class BoneMealHelper {
         return true;
     }
 
-    private static ItemStack findSeedInInventory(Player player, @Nullable Item seedItem) {
-        for (ItemStack itemStack : player.getInventory().items) {
-            if (!itemStack.isEmpty() && itemStack.getItem() == seedItem) {
-                return itemStack;
-            }
+    private static ItemStack findSeedInInventory(Player player, Item seedItem) {
+        final var slot = player.getInventory().findSlotMatchingItem(new ItemStack(seedItem));
+        if (slot != -1) {
+            return player.getInventory().getItem(slot);
         }
 
         return ItemStack.EMPTY;
