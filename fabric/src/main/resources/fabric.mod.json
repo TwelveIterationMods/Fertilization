@@ -25,9 +25,6 @@
     "client": [
       "net.blay09.mods.fertilization.fabric.client.FabricFertilizationClient"
     ],
-    "modmenu": [
-      "net.blay09.mods.fertilization.fabric.compat.ModMenuIntegration"
-    ],
     "fabric-datagen": [
       "net.blay09.mods.fertilization.fabric.datagen.ModDataGenerator"
     ]

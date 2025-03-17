@@ -1,9 +1,9 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.api.config.BalmConfigData;
-import net.blay09.mods.balm.api.config.Comment;
-import net.blay09.mods.balm.api.config.Config;
-import net.blay09.mods.balm.api.config.ExpectedType;
+import net.blay09.mods.balm.api.Balm;
+import net.blay09.mods.balm.api.config.reflection.Comment;
+import net.blay09.mods.balm.api.config.reflection.Config;
+import net.blay09.mods.balm.api.config.reflection.NestedType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.Set;
 
 @Config(Fertilization.MOD_ID)
-public class FertilizationConfigData implements BalmConfigData {
+public class FertilizationConfigData {
 
     @Comment("Set to true if compressed bone meal drops should go straight into the player's inventory.")
     public boolean addDropsDirectlyToInventory = false;
@@ -41,7 +41,7 @@ public class FertilizationConfigData implements BalmConfigData {
     public int floristsBoneMealMaxRange = 3;
 
     @Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
-    @ExpectedType(ResourceLocation.class)
+    @NestedType(ResourceLocation.class)
     public Set<ResourceLocation> flowerBlocks = Set.of(
             ResourceLocation.withDefaultNamespace("poppy"),
             ResourceLocation.withDefaultNamespace("dandelion"),
@@ -63,6 +63,14 @@ public class FertilizationConfigData implements BalmConfigData {
     public boolean isFlowerBlock(Block block) {
         final var id = BuiltInRegistries.BLOCK.getKey(block);
         return flowerBlocks.contains(id);
+    }
+
+    public static FertilizationConfigData getActive() {
+        return Balm.getConfig().getActiveConfig(FertilizationConfigData.class);
+    }
+
+    public static void initialize() {
+        Balm.getConfig().registerConfig(FertilizationConfigData.class);
     }
 
 }
