@@ -41,6 +41,7 @@ public class FertilizationConfigData implements BalmConfigData {
     public int floristsBoneMealMaxRange = 3;
 
     @Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
+    @ExpectedType(String.class)
     public List<String> flowerBlocks = Lists.newArrayList(
             "minecraft:poppy",
             "minecraft:dandelion",
