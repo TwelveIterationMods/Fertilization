@@ -1,2 +1,1 @@
-- Updated to Minecraft 1.21.1
-- Added bonemeal items to c:fertilizers tag
+- Fixed `flowerBlocks` config option not loading correctly
