@@ -1,1 +1,1 @@
-- Updated to Minecraft 1.20
+- Fixed flowerBlocks config not loading correctly
