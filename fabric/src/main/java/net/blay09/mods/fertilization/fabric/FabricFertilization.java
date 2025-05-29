@@ -8,6 +8,6 @@ import net.fabricmc.api.ModInitializer;
 public class FabricFertilization implements ModInitializer {
     @Override
     public void onInitialize() {
-        Balm.initialize(Fertilization.MOD_ID, EmptyLoadContext.INSTANCE, Fertilization::initialize);
+        Balm.initializeMod(Fertilization.MOD_ID, EmptyLoadContext.INSTANCE, Fertilization::initialize);
     }
 }
