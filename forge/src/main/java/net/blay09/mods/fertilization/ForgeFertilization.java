@@ -9,7 +9,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class ForgeFertilization {
     public ForgeFertilization(FMLJavaModLoadingContext context) {
         final var loadContext = new ForgeLoadContext(context.getModEventBus());
-        Balm.initialize(Fertilization.MOD_ID, loadContext, Fertilization::initialize);
+        Balm.initializeMod(Fertilization.MOD_ID, loadContext, Fertilization::initialize);
     }
 
 }
