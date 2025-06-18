@@ -8,7 +8,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(Fertilization.MOD_ID)
 public class ForgeFertilization {
     public ForgeFertilization(FMLJavaModLoadingContext context) {
-        final var loadContext = new ForgeLoadContext(context.getModEventBus());
+        final var loadContext = new ForgeLoadContext(context.getModBusGroup());
         Balm.initializeMod(Fertilization.MOD_ID, loadContext, Fertilization::initialize);
     }
 
