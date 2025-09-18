@@ -30,7 +30,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
         BlockState state = level.getBlockState(pos);
         final var tree = ModWorldGen.getFancyTreeForSapling(state);
         if (FertilizationConfig.getActive().allowBoneMealOnSaplings && tree != null) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 if (!tree.growTree(((ServerLevel) level), ((ServerLevel) level).getChunkSource().getGenerator(), pos, state, level.random)) {
                     return InteractionResult.FAIL;
                 }

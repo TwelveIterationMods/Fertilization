@@ -46,7 +46,7 @@ public class BoneMealUseBlockHandler {
             return InteractionResult.SUCCESS;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlock(candidatePos, state, 3);
 
             level.levelEvent(2005, pos, 0);

@@ -99,7 +99,7 @@ public class BoneMealHelper {
             return false;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlockAndUpdate(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {

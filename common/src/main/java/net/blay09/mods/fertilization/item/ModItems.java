@@ -39,7 +39,7 @@ public class ModItems {
                 BlockState state = level.getBlockState(pos);
                 if (boneMealItem.applyBoneMeal(level, pos, state, itemStack, null) != InteractionResult.SUCCESS) {
                     this.setSuccess(false);
-                } else if (!level.isClientSide) {
+                } else if (!level.isClientSide()) {
                     level.levelEvent(2005, pos, 0);
                 }
 

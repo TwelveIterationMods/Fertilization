@@ -68,7 +68,7 @@ public class CompressedBoneMealItem extends Item {
                 break;
             }
 
-            if (isStem && !level.isClientSide) {
+            if (isStem && !level.isClientSide()) {
                 state.tick((ServerLevel) level, pos, level.random);
             }
         }

@@ -81,7 +81,7 @@ public class FloristsBoneMealItem extends Item {
 
     public boolean applyBoneMeal(Level level, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable Player player) {
         if (FertilizationConfig.getActive().isFlowerBlock(state.getBlock())) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, null);
                 for (ItemStack drop : drops) {
                     ItemEntity entityItem = new ItemEntity(level, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, drop);
@@ -99,7 +99,7 @@ public class FloristsBoneMealItem extends Item {
         }
 
         if (BoneMealHelper.isGrassBlock(state)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 RandomSource random = level.random;
                 final int tries = FertilizationConfig.getActive().floristsBoneMealMaxFlowers;
                 final int range = FertilizationConfig.getActive().floristsBoneMealMaxRange;
