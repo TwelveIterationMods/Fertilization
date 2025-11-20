@@ -1,9 +1,9 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.api.world.BalmWorldGen;
+import net.blay09.mods.balm.world.level.levelgen.BalmWorldGen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.grower.TreeGrower;
@@ -37,8 +37,8 @@ public class ModWorldGen {
         return treeGrowers.get(state.getBlock());
     }
 
-    private static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(Fertilization.MOD_ID, name);
+    private static Identifier id(String name) {
+        return Identifier.fromNamespaceAndPath(Fertilization.MOD_ID, name);
     }
 
 }

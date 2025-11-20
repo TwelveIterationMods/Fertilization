@@ -19,8 +19,8 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
-        itemModelGenerator.generateFlatItem(ModItems.compressedBoneMeal, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ModItems.extremelyCompressedBoneMeal, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ModItems.floristsBoneMeal, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.compressedBoneMeal.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.extremelyCompressedBoneMeal.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ModItems.floristsBoneMeal.asItem(), ModelTemplates.FLAT_ITEM);
     }
 }

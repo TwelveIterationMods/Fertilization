@@ -1,13 +1,16 @@
 package net.blay09.mods.fertilization.item;
 
-import net.blay09.mods.balm.api.item.BalmItems;
+import net.blay09.mods.balm.world.item.BalmCreativeModeTabRegistrar;
+import net.blay09.mods.balm.world.item.BalmItemRegistrar;
+import net.blay09.mods.balm.world.item.DeferredItem;
 import net.blay09.mods.fertilization.Fertilization;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,16 +20,26 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ModItems {
 
-    public static CompressedBoneMealItem compressedBoneMeal;
-    public static ExtremelyCompressedBoneMealItem extremelyCompressedBoneMeal;
-    public static FloristsBoneMealItem floristsBoneMeal;
+    public static DeferredItem compressedBoneMeal;
+    public static DeferredItem extremelyCompressedBoneMeal;
+    public static DeferredItem floristsBoneMeal;
 
-    public static void initialize(BalmItems items) {
-        items.registerItem((identifier) -> compressedBoneMeal = new CompressedBoneMealItem(defaultProperties(identifier)), id("compressed_bonemeal"));
-        items.registerItem((identifier) -> extremelyCompressedBoneMeal = new ExtremelyCompressedBoneMealItem(defaultProperties(identifier)), id("extremely_compressed_bonemeal"));
-        items.registerItem((identifier) -> floristsBoneMeal = new FloristsBoneMealItem(defaultProperties(identifier)), id("florists_bonemeal"));
+    public static void initialize(BalmItemRegistrar items) {
+        compressedBoneMeal = items.register("compressed_bonemeal", CompressedBoneMealItem::new).asDeferredItem();
+        extremelyCompressedBoneMeal = items.register("extremely_compressed_bonemeal", ExtremelyCompressedBoneMealItem::new).asDeferredItem();
+        floristsBoneMeal = items.register("florists_bonemeal", FloristsBoneMealItem::new).asDeferredItem();
+    }
 
-        items.registerCreativeModeTab(() -> new ItemStack(ModItems.compressedBoneMeal), id("fertilization"));
+    public static void initialize(BalmCreativeModeTabRegistrar creativeModeTabs) {
+        creativeModeTabs.register(Fertilization.MOD_ID, (id, builder) ->
+                builder.title(Component.translatable(id.toLanguageKey("itemGroup")))
+                        .icon(() -> ModItems.compressedBoneMeal.createStack())
+                        .displayItems(((itemDisplayParameters, output) -> {
+                                    output.accept(ModItems.compressedBoneMeal.createStack());
+                                    output.accept(ModItems.extremelyCompressedBoneMeal.createStack());
+                                    output.accept(ModItems.floristsBoneMeal.createStack());
+                                })
+                        ));
     }
 
     public static void registerBoneMealDispenseBehaviour(CompressedBoneMealItem boneMealItem) {
@@ -52,15 +65,15 @@ public class ModItems {
         });
     }
 
-    private static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(Fertilization.MOD_ID, name);
+    private static Identifier id(String name) {
+        return Identifier.fromNamespaceAndPath(Fertilization.MOD_ID, name);
     }
 
-    private static ResourceKey<Item> itemId(ResourceLocation identifier) {
+    private static ResourceKey<Item> itemId(Identifier identifier) {
         return ResourceKey.create(Registries.ITEM, identifier);
     }
 
-    private static Item.Properties defaultProperties(ResourceLocation identifier) {
+    private static Item.Properties defaultProperties(Identifier identifier) {
         return new Item.Properties().setId(itemId(identifier));
     }
 }

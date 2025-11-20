@@ -1,20 +1,22 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.event.UseBlockEvent;
+import net.blay09.mods.balm.Balm;
+import net.blay09.mods.balm.core.BalmRegistrars;
+import net.blay09.mods.balm.platform.event.callback.BlockCallback;
 import net.blay09.mods.fertilization.item.ModItems;
 
 public class Fertilization {
 
     public static final String MOD_ID = "fertilization";
 
-    public static void initialize() {
+    public static void initialize(BalmRegistrars registrars) {
         FertilizationConfig.initialize();
 
-        ModItems.initialize(Balm.getItems());
-        ModWorldGen.initialize(Balm.getWorldGen());
+        registrars.items(ModItems::initialize);
+        registrars.creativeModeTabs(ModItems::initialize);
+        ModWorldGen.initialize(Balm.biomeModifications());
 
-        Balm.getEvents().onEvent(UseBlockEvent.class, BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
+        BlockCallback.Use.EVENT.register(BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
     }
 
 }

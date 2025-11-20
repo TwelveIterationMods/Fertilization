@@ -1,11 +1,11 @@
 package net.blay09.mods.fertilization;
 
-import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.balm.api.config.reflection.Comment;
-import net.blay09.mods.balm.api.config.reflection.Config;
-import net.blay09.mods.balm.api.config.reflection.NestedType;
+import net.blay09.mods.balm.Balm;
+import net.blay09.mods.balm.platform.config.reflection.Comment;
+import net.blay09.mods.balm.platform.config.reflection.Config;
+import net.blay09.mods.balm.platform.config.reflection.NestedType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Set;
@@ -41,24 +41,24 @@ public class FertilizationConfig {
     public int floristsBoneMealMaxRange = 3;
 
     @Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
-    @NestedType(ResourceLocation.class)
-    public Set<ResourceLocation> flowerBlocks = Set.of(
-            ResourceLocation.withDefaultNamespace("poppy"),
-            ResourceLocation.withDefaultNamespace("dandelion"),
-            ResourceLocation.withDefaultNamespace("blue_orchid"),
-            ResourceLocation.withDefaultNamespace("allium"),
-            ResourceLocation.withDefaultNamespace("azure_bluet"),
-            ResourceLocation.withDefaultNamespace("red_tulip"),
-            ResourceLocation.withDefaultNamespace("orange_tulip"),
-            ResourceLocation.withDefaultNamespace("white_tulip"),
-            ResourceLocation.withDefaultNamespace("pink_tulip"),
-            ResourceLocation.withDefaultNamespace("oxeye_daisy"),
-            ResourceLocation.withDefaultNamespace("rose_bush"),
-            ResourceLocation.withDefaultNamespace("peony"),
-            ResourceLocation.withDefaultNamespace("lilac"),
-            ResourceLocation.withDefaultNamespace("sunflower"),
-            ResourceLocation.withDefaultNamespace("cornflower"),
-            ResourceLocation.withDefaultNamespace("lily_of_the_valley"));
+    @NestedType(Identifier.class)
+    public Set<Identifier> flowerBlocks = Set.of(
+            Identifier.withDefaultNamespace("poppy"),
+            Identifier.withDefaultNamespace("dandelion"),
+            Identifier.withDefaultNamespace("blue_orchid"),
+            Identifier.withDefaultNamespace("allium"),
+            Identifier.withDefaultNamespace("azure_bluet"),
+            Identifier.withDefaultNamespace("red_tulip"),
+            Identifier.withDefaultNamespace("orange_tulip"),
+            Identifier.withDefaultNamespace("white_tulip"),
+            Identifier.withDefaultNamespace("pink_tulip"),
+            Identifier.withDefaultNamespace("oxeye_daisy"),
+            Identifier.withDefaultNamespace("rose_bush"),
+            Identifier.withDefaultNamespace("peony"),
+            Identifier.withDefaultNamespace("lilac"),
+            Identifier.withDefaultNamespace("sunflower"),
+            Identifier.withDefaultNamespace("cornflower"),
+            Identifier.withDefaultNamespace("lily_of_the_valley"));
 
     public boolean isFlowerBlock(Block block) {
         final var id = BuiltInRegistries.BLOCK.getKey(block);
@@ -66,11 +66,11 @@ public class FertilizationConfig {
     }
 
     public static FertilizationConfig getActive() {
-        return Balm.getConfig().getActiveConfig(FertilizationConfig.class);
+        return Balm.config().getActiveConfig(FertilizationConfig.class);
     }
 
     public static void initialize() {
-        Balm.getConfig().registerConfig(FertilizationConfig.class);
+        Balm.config().registerConfig(FertilizationConfig.class);
     }
 
 }
