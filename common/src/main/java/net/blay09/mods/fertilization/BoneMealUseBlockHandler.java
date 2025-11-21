@@ -1,9 +1,9 @@
 package net.blay09.mods.fertilization;
 
 
+import net.blay09.mods.balm.platform.event.callback.InteractionEventResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,23 +15,23 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class BoneMealUseBlockHandler {
 
-    public static InteractionResult onBonemealVinesAndSugarCanes(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
+    public static InteractionEventResult onBonemealVinesAndSugarCanes(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack itemStack = player.getItemInHand(hand);
         BlockPos pos = hitResult.getBlockPos();
         if (itemStack.getItem() != Items.BONE_MEAL) {
-            return InteractionResult.PASS;
+            return InteractionEventResult.DEFAULT;
         }
 
         BlockState state = level.getBlockState(pos);
         Block growthBlock = state.getBlock();
         if (growthBlock != Blocks.VINE && growthBlock != Blocks.SUGAR_CANE) {
-            return InteractionResult.PASS;
+            return InteractionEventResult.DEFAULT;
         }
 
         if (growthBlock == Blocks.SUGAR_CANE && !FertilizationConfig.getActive().allowBoneMealOnSugarCanes) {
-            return InteractionResult.PASS;
+            return InteractionEventResult.DEFAULT;
         } else if (growthBlock == Blocks.VINE && !FertilizationConfig.getActive().allowBoneMealOnVines) {
-            return InteractionResult.PASS;
+            return InteractionEventResult.DEFAULT;
         }
 
         boolean growUpwards = growthBlock == Blocks.SUGAR_CANE;
@@ -42,7 +42,7 @@ public class BoneMealUseBlockHandler {
         }
 
         if (!level.isEmptyBlock(candidatePos) || level.isOutsideBuildHeight(candidatePos)) {
-            return InteractionResult.SUCCESS;
+            return InteractionEventResult.SUCCESS;
         }
 
         if (!level.isClientSide()) {
@@ -57,7 +57,7 @@ public class BoneMealUseBlockHandler {
             itemStack.shrink(1);
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionEventResult.SUCCESS;
     }
 
 }
