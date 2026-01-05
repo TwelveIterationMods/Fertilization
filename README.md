@@ -6,7 +6,7 @@ Minecraft Mod. Adds additional variants of bone meal for all your fertilization 
 
 #### Downloads
 
-[![Versions](http://cf.way2muchnoise.eu/versions/304095_latest.svg)](https://minecraft.curseforge.com/projects/fertilization) [![Downloads](http://cf.way2muchnoise.eu/full_304095_downloads.svg)](https://minecraft.curseforge.com/projects/fertilization)
+[![Versions](http://cf.way2muchnoise.eu/versions/304095_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/fertilization) [![Downloads](http://cf.way2muchnoise.eu/full_304095_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/fertilization)
 
 ## Contributing
 
