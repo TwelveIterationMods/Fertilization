@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_florists_bone_meal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fertilization:florists_bonemeal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fertilization:florists_bonemeal_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_florists_bone_meal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fertilization:florists_bonemeal_block"
+    ]
+  }
+}

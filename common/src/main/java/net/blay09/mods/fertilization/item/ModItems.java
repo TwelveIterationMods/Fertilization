@@ -4,6 +4,7 @@ import net.blay09.mods.balm.world.item.BalmCreativeModeTabRegistrar;
 import net.blay09.mods.balm.world.item.BalmItemRegistrar;
 import net.blay09.mods.balm.world.item.DeferredItem;
 import net.blay09.mods.fertilization.Fertilization;
+import net.blay09.mods.fertilization.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -35,9 +36,12 @@ public class ModItems {
                 builder.title(Component.translatable(id.toLanguageKey("itemGroup")))
                         .icon(() -> ModItems.compressedBoneMeal.createStack())
                         .displayItems(((itemDisplayParameters, output) -> {
-                                    output.accept(ModItems.compressedBoneMeal.createStack());
-                                    output.accept(ModItems.extremelyCompressedBoneMeal.createStack());
-                                    output.accept(ModItems.floristsBoneMeal.createStack());
+                                output.accept(ModItems.compressedBoneMeal.createStack());
+                                output.accept(ModBlocks.compressedBoneMealBlock.asItem());
+                                output.accept(ModItems.extremelyCompressedBoneMeal.createStack());
+                                output.accept(ModBlocks.extremelyCompressedBoneMealBlock.asItem());
+                                output.accept(ModItems.floristsBoneMeal.createStack());
+                                output.accept(ModBlocks.floristsBoneMealBlock.asItem());
                                 })
                         ));
     }

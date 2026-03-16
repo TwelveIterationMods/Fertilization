@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "fertilization:block/compressed_bonemeal_top",
+    "side": "fertilization:block/compressed_bonemeal_side"
+  }
+}

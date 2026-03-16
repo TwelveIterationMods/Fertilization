@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fertilization:extremely_compressed_bonemeal_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "fertilization:extremely_compressed_bonemeal"
+  }
+}

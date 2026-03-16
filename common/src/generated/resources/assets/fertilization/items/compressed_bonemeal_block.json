@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "fertilization:block/compressed_bonemeal_block"
+  }
+}

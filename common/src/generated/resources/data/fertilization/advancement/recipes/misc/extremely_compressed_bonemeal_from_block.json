@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_extremely_compressed_bonemeal_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fertilization:extremely_compressed_bonemeal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fertilization:extremely_compressed_bonemeal_from_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_extremely_compressed_bonemeal_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fertilization:extremely_compressed_bonemeal_from_block"
+    ]
+  }
+}
