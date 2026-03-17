@@ -32,7 +32,7 @@ public class FertilizationConfig {
     public int compressedBoneMealPower = 4;
 
     @Comment("The amount of bone meal applied to the plant when using extremely compressed bone meal.")
-    public int extremelyCompressedBoneMealPower = 36;
+    public int extremelyCompressedBoneMealPower = 16;
 
     @Comment("The maximum amount of flowers that can spawn when using Florist's Bone Meal on grass.")
     public int floristsBoneMealMaxFlowers = 5;

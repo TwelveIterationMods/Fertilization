@@ -5,9 +5,8 @@
     "B": "fertilization:compressed_bonemeal"
   },
   "pattern": [
-    "BBB",
-    "BBB",
-    "BBB"
+    "BB",
+    "BB"
   ],
   "result": {
     "count": 1,

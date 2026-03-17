@@ -53,9 +53,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .save(exporter);
 
                 shaped(RecipeCategory.MISC, ModItems.extremelyCompressedBoneMeal)
-                        .pattern("BBB")
-                        .pattern("BBB")
-                        .pattern("BBB")
+                        .pattern("BB")
+                        .pattern("BB")
                         .define('B', ModItems.compressedBoneMeal)
                         .unlockedBy("has_compressed_bone_meal", has(ModItems.compressedBoneMeal))
                         .save(exporter);
