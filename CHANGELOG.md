@@ -1,1 +1,1 @@
-- Updated to Forge 1.21.11
+- Added block variants of Compressed Bonemeal, Extremely Compressed Bonemeal and Florists Bonemeal
