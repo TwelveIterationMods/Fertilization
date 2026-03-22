@@ -49,7 +49,7 @@ public class CompressedBoneMealItem extends Item {
     }
 
     public InteractionResult applyBoneMeal(Level level, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable Player player) {
-        if (!(state.getBlock() instanceof BonemealableBlock) || !((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.random, pos, state)) {
+        if (!(state.getBlock() instanceof BonemealableBlock) || !((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.getRandom(), pos, state)) {
             return InteractionResult.PASS;
         }
 
@@ -69,7 +69,7 @@ public class CompressedBoneMealItem extends Item {
             }
 
             if (isStem && !level.isClientSide()) {
-                state.tick((ServerLevel) level, pos, level.random);
+                state.tick((ServerLevel) level, pos, level.getRandom());
             }
         }
 

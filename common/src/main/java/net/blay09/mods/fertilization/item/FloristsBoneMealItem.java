@@ -7,6 +7,7 @@ import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,9 +22,6 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -100,7 +98,7 @@ public class FloristsBoneMealItem extends Item {
 
         if (BoneMealHelper.isGrassBlock(state)) {
             if (!level.isClientSide()) {
-                RandomSource random = level.random;
+                RandomSource random = level.getRandom();
                 final int tries = FertilizationConfig.getActive().floristsBoneMealMaxFlowers;
                 final int range = FertilizationConfig.getActive().floristsBoneMealMaxRange;
                 boolean spawnedAnyFlower = false;
@@ -128,15 +126,11 @@ public class FloristsBoneMealItem extends Item {
         return false;
     }
 
-    private void plantFlower(ServerLevel level, BlockPos pos, RandomSource rand) {
-        List<ConfiguredFeature<?, ?>> list = level.getBiome(pos).value().getGenerationSettings().getFlowerFeatures();
-        if (list.isEmpty()) {
-            return;
+    private void plantFlower(ServerLevel level, BlockPos pos, RandomSource random) {
+        final var features = level.getBiome(pos).value().getGenerationSettings().getBoneMealFeatures();
+        if (!features.isEmpty()) {
+            ConfiguredFeature<?, ?> placementFeature = Util.getRandom(features, random);
+            placementFeature.place(level, level.getChunkSource().getGenerator(), random, pos);
         }
-
-        ConfiguredFeature<?, ?> configuredFeature = list.get(0);
-        FeatureConfiguration config = configuredFeature.config();
-        PlacedFeature placedFeature = ((RandomPatchConfiguration) config).feature().value();
-        placedFeature.place(level, level.getChunkSource().getGenerator(), rand, pos);
     }
 }
