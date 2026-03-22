@@ -1,6 +1,5 @@
 package net.blay09.mods.fertilization.fabric.datagen;
 
-import net.blay09.mods.fertilization.Fertilization;
 import net.blay09.mods.fertilization.block.ModBlocks;
 import net.blay09.mods.fertilization.item.ModItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
@@ -11,9 +10,10 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.world.level.block.Block;
 
+import static net.blay09.mods.fertilization.Fertilization.id;
 import static net.minecraft.client.data.models.BlockModelGenerators.plainVariant;
 
 
@@ -37,8 +37,8 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     private void createColumnBlock(BlockModelGenerators blockStateModelGenerator, Block block, String textureName) {
-        final var sideTexture = Identifier.fromNamespaceAndPath(Fertilization.MOD_ID, "block/" + textureName + "_side");
-        final var endTexture = Identifier.fromNamespaceAndPath(Fertilization.MOD_ID, "block/" + textureName + "_top");
+        final var sideTexture = new Material(id("block/" + textureName + "_side"));
+        final var endTexture = new Material(id("block/" + textureName + "_top"));
         final var textureMapping = new TextureMapping()
                 .put(TextureSlot.SIDE, sideTexture)
                 .put(TextureSlot.END, endTexture)

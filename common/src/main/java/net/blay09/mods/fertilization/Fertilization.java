@@ -5,6 +5,7 @@ import net.blay09.mods.balm.core.BalmRegistrars;
 import net.blay09.mods.balm.platform.event.callback.BlockCallback;
 import net.blay09.mods.fertilization.block.ModBlocks;
 import net.blay09.mods.fertilization.item.ModItems;
+import net.minecraft.resources.Identifier;
 
 public class Fertilization {
 
@@ -21,4 +22,7 @@ public class Fertilization {
         BlockCallback.Use.EVENT.register(BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
     }
 
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
+    }
 }
