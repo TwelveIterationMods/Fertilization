@@ -1,1 +1,2 @@
-- Added block variants of Compressed Bonemeal, Extremely Compressed Bonemeal and Florists Bonemeal
+- Updated to Minecraft 26.1
+- Fixed extremely compressed bone meal not being craftable anymore, change to 4x4 recipe and reduce default power
