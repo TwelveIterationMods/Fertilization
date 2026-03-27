@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
