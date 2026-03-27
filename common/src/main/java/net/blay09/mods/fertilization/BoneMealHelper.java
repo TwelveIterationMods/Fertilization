@@ -103,8 +103,9 @@ public class BoneMealHelper {
             level.setBlockAndUpdate(pos, newCropState.get());
 
             for (ItemStack itemStack : drops) {
-                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || FertilizationConfig.getActive().addDropsDirectlyToInventory || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && Balm.hooks()
-                        .isFakePlayer(player))) {
+                boolean shouldAddToInventory = FertilizationConfig.getActive().addDropsDirectlyToInventory
+                        || (FertilizationConfig.getActive().addDropsDirectlyToInventoryForFakePlayers && player != null && Balm.hooks().isFakePlayer(player));
+                if ((seedInInventory.isEmpty() && itemStack.getItem() == seedItem) || shouldAddToInventory) {
                     if (player != null && player.getInventory().add(itemStack)) {
                         continue;
                     }
