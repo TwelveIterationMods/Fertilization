@@ -13,6 +13,8 @@ public class ModBlocks {
     public static DeferredBlock floristsBoneMealBlock;
 
     public static void initialize(BalmBlockRegistrar blocks) {
+        blocks.enableBlockDescriptionPrefixForItems();
+
         compressedBoneMealBlock = blocks.register("compressed_bonemeal_block", Block::new,
                         properties -> properties.mapColor(Blocks.BONE_BLOCK.defaultMapColor()).sound(SoundType.BONE_BLOCK).strength(2f, 3f))
                 .withDefaultItem()
