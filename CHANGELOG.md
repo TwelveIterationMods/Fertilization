@@ -1,1 +1,1 @@
-- Fixed `flowerBlocks` config option not loading correctly
+- Fixed config translation keys
