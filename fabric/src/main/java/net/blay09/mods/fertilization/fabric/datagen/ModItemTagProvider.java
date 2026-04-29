@@ -17,10 +17,10 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookup) {
-        final var fertilizers = valueLookupBuilder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "fertilizers")));
-        fertilizers.add(ModItems.compressedBoneMeal.asItem());
-        fertilizers.add(ModItems.extremelyCompressedBoneMeal.asItem());
-        fertilizers.add(ModItems.floristsBoneMeal.asItem());
+        final var fertilizers = builder(TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "fertilizers")));
+        fertilizers.add(ModItems.compressedBoneMeal.asResourceKey());
+        fertilizers.add(ModItems.extremelyCompressedBoneMeal.asResourceKey());
+        fertilizers.add(ModItems.floristsBoneMeal.asResourceKey());
     }
 
 }

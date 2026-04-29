@@ -9,7 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.BlockItemTags;
 import net.minecraft.world.item.Items;
 
 import java.util.concurrent.CompletableFuture;
@@ -76,7 +76,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("BF")
                         .pattern("FB")
                         .define('B', Items.BONE_MEAL)
-                        .define('F', ItemTags.SMALL_FLOWERS)
+                        .define('F', BlockItemTags.SMALL_FLOWERS.item())
                         .unlockedBy("has_bone_meal", has(Items.BONE_MEAL))
                         .save(exporter);
 
