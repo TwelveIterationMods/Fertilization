@@ -1,2 +1,1 @@
-- Updated to Minecraft 26.1
-- Fixed extremely compressed bone meal not being craftable anymore, change to 4x4 recipe and reduce default power
+- Updated to Minecraft 26.2
