@@ -40,6 +40,9 @@ public class FertilizationConfig {
     @Comment("The maximum range that flowers can spawn when using Florist's Bone Meal on grass.")
     public int floristsBoneMealMaxRange = 3;
 
+    @Comment("The biome whose flowers are used when the current biome has no flowers configured. Leave empty to disable the fallback.")
+    public String floristsBoneMealFallbackBiome = "minecraft:plains";
+
     @Comment("List of blocks that can be duplicated by using Florist's Bone Meal on them.")
     @NestedType(Identifier.class)
     public Set<Identifier> flowerBlocks = Set.of(
