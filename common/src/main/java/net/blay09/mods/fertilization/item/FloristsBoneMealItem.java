@@ -5,6 +5,8 @@ import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
@@ -16,6 +18,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
@@ -105,8 +109,7 @@ public class FloristsBoneMealItem extends Item {
                 for (int i = 0; i < tries; i++) {
                     BlockPos flowerPos = new BlockPos(pos.getX() + random.nextInt(range * 2) - range, pos.getY() + 1, pos.getZ() + random.nextInt(range * 2) - range);
                     if (level.isEmptyBlock(flowerPos) && BoneMealHelper.isGrassBlock(level.getBlockState(flowerPos.below()))) {
-                        plantFlower(((ServerLevel) level), flowerPos, random);
-                        spawnedAnyFlower = true;
+                        spawnedAnyFlower |= plantFlower((ServerLevel) level, flowerPos, random);
                     }
                 }
 
@@ -126,11 +129,36 @@ public class FloristsBoneMealItem extends Item {
         return false;
     }
 
-    private void plantFlower(ServerLevel level, BlockPos pos, RandomSource random) {
-        final var features = level.getBiome(pos).value().getGenerationSettings().getBoneMealFeatures();
-        if (!features.isEmpty()) {
-            ConfiguredFeature<?, ?> placementFeature = Util.getRandom(features, random);
-            placementFeature.place(level, level.getChunkSource().getGenerator(), random, pos);
+    private boolean plantFlower(ServerLevel level, BlockPos pos, RandomSource random) {
+        var features = level.getBiome(pos).value().getGenerationSettings().getBoneMealFeatures();
+        if (features.isEmpty()) {
+            features = getFallbackFlowerFeatures(level);
         }
+
+        if (!features.isEmpty()) {
+            final var placementFeature = Util.getRandom(features, random);
+            return placementFeature.place(level, level.getChunkSource().getGenerator(), random, pos);
+        }
+
+        return false;
+    }
+
+    private List<ConfiguredFeature<?, ?>> getFallbackFlowerFeatures(ServerLevel level) {
+        final var fallbackBiome = FertilizationConfig.getActive().floristsBoneMealFallbackBiome;
+        if (fallbackBiome.isBlank()) {
+            return List.of();
+        }
+
+        final var fallbackBiomeId = Identifier.tryParse(fallbackBiome);
+        if (fallbackBiomeId == null) {
+            return List.of();
+        }
+
+        return level.registryAccess()
+                .lookupOrThrow(Registries.BIOME)
+                .getOptional(fallbackBiomeId)
+                .map(Biome::getGenerationSettings)
+                .map(BiomeGenerationSettings::getBoneMealFeatures)
+                .orElseGet(List::of);
     }
 }

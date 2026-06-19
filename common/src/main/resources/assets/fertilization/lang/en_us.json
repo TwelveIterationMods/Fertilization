@@ -24,6 +24,8 @@
   "fertilization.configuration.floristsBoneMealMaxFlowers.tooltip": "The maximum amount of flowers that can spawn when using Florist's Bone Meal on grass.",
   "fertilization.configuration.floristsBoneMealMaxRange": "Florist's Bone Meal Maximum Range",
   "fertilization.configuration.floristsBoneMealMaxRange.tooltip": "The maximum range that flowers can spawn when using Florist's Bone Meal on grass.",
+  "fertilization.configuration.floristsBoneMealFallbackBiome": "Florist's Bone Meal Fallback Biome",
+  "fertilization.configuration.floristsBoneMealFallbackBiome.tooltip": "The biome whose flowers are used when the current biome has no flowers configured. Leave empty to disable the fallback.",
   "fertilization.configuration.flowerBlocks": "Blocks Duplicated by Florist's Bone Meal",
   "fertilization.configuration.flowerBlocks.tooltip": "List of blocks that can be duplicated by using Florist's Bone Meal on them."
 }
