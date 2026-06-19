@@ -103,13 +103,32 @@ public class FloristsBoneMealItem extends Item {
         if (BoneMealHelper.isGrassBlock(state)) {
             if (!level.isClientSide()) {
                 RandomSource random = level.getRandom();
-                final int tries = FertilizationConfig.getActive().floristsBoneMealMaxFlowers;
-                final int range = FertilizationConfig.getActive().floristsBoneMealMaxRange;
+                final int maxFlowers = FertilizationConfig.getActive().floristsBoneMealMaxFlowers;
+                final int maxRange = Math.max(0, FertilizationConfig.getActive().floristsBoneMealMaxRange);
+                final BlockPos origin = pos.above();
                 boolean spawnedAnyFlower = false;
-                for (int i = 0; i < tries; i++) {
-                    BlockPos flowerPos = new BlockPos(pos.getX() + random.nextInt(range * 2) - range, pos.getY() + 1, pos.getZ() + random.nextInt(range * 2) - range);
-                    if (level.isEmptyBlock(flowerPos) && BoneMealHelper.isGrassBlock(level.getBlockState(flowerPos.below()))) {
-                        spawnedAnyFlower |= plantFlower((ServerLevel) level, flowerPos, random);
+                int spawnedFlowers = 0;
+
+                candidateLoop:
+                for (int candidate = 0; candidate < 128 && spawnedFlowers < maxFlowers; candidate++) {
+                    BlockPos flowerPos = origin;
+                    final int walkLength = Math.min(candidate / 16, maxRange);
+                    for (int step = 0; step < walkLength; step++) {
+                        flowerPos = flowerPos.offset(
+                                random.nextInt(3) - 1,
+                                (random.nextInt(3) - 1) * random.nextInt(3) / 2,
+                                random.nextInt(3) - 1);
+                        if (!BoneMealHelper.isGrassBlock(level.getBlockState(flowerPos.below()))
+                                || level.getBlockState(flowerPos).isCollisionShapeFullBlock(level, flowerPos)) {
+                            continue candidateLoop;
+                        }
+                    }
+
+                    if (level.getBlockState(flowerPos).isAir()
+                            && !level.isOutsideBuildHeight(flowerPos)
+                            && plantFlower((ServerLevel) level, flowerPos, random)) {
+                        spawnedAnyFlower = true;
+                        spawnedFlowers++;
                     }
                 }
 
