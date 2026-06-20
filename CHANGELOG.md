@@ -1,2 +1,4 @@
-- Updated to Minecraft 26.1
-- Fixed extremely compressed bone meal not being craftable anymore, change to 4x4 recipe and reduce default power
+- Added `floristsBoneMealFallbackBiome` option as a fallback for biomes that have no flower configs
+- Fixed Florist's Bonemeal failure particles not showing if no flowers were found
+- Fixed Florist's Bonemeal placement logic to match regular bonemeal behavior
+- Fixed incorrect translation keys for item blocks
