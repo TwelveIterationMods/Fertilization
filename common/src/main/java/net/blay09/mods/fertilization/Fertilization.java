@@ -18,6 +18,7 @@ public class Fertilization {
         registrars.items(ModItems::initialize);
         registrars.creativeModeTabs(ModItems::initialize);
         ModWorldGen.initialize(Balm.biomeModifications());
+        FlowerDuplication.initialize();
 
         BlockCallback.Use.EVENT.register(BoneMealUseBlockHandler::onBonemealVinesAndSugarCanes);
     }

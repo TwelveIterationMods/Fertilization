@@ -2,6 +2,7 @@ package net.blay09.mods.fertilization.item;
 
 import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
+import net.blay09.mods.fertilization.FlowerDuplication;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
@@ -12,7 +13,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +20,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -70,9 +69,8 @@ public class FloristsBoneMealItem extends Item {
         InteractionHand hand = context.getHand();
 
         BlockState state = level.getBlockState(pos);
-        if (state.getBlock() instanceof DoublePlantBlock && state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER) {
-            state = level.getBlockState(pos.below());
-        }
+        pos = normalizeFlowerPos(pos, state);
+        state = level.getBlockState(pos);
 
         if (applyBoneMeal(level, pos, state, player.getItemInHand(hand), player)) {
             return InteractionResult.SUCCESS;
@@ -84,17 +82,20 @@ public class FloristsBoneMealItem extends Item {
     public boolean applyBoneMeal(Level level, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable Player player) {
         if (FertilizationConfig.getActive().isFlowerBlock(state.getBlock())) {
             if (!level.isClientSide()) {
-                List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, null);
-                for (ItemStack drop : drops) {
-                    ItemEntity entityItem = new ItemEntity(level, pos.getX() + 0.5f, pos.getY() + 0.25f, pos.getZ() + 0.5f, drop);
-                    level.addFreshEntity(entityItem);
+                final ServerLevel serverLevel = (ServerLevel) level;
+                final BlockPos sourcePos = normalizeFlowerPos(pos, state);
+                final BlockState sourceState = level.getBlockState(sourcePos);
+                final BlockPos targetPos = findDuplicateFlowerPosition(serverLevel, sourcePos, sourceState);
+                if (targetPos == null) {
+                    level.levelEvent(2000, sourcePos, 4);
+                    return false;
                 }
+
+                FlowerDuplication.spreadDuplicateFlower(serverLevel, sourcePos, sourceState, targetPos);
 
                 if (player == null || !player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
-
-                level.levelEvent(2005, pos, 0);
             }
 
             return true;
@@ -146,6 +147,31 @@ public class FloristsBoneMealItem extends Item {
             return true;
         }
         return false;
+    }
+
+    private BlockPos normalizeFlowerPos(BlockPos pos, BlockState state) {
+        if (state.getBlock() instanceof DoublePlantBlock && state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER) {
+            return pos.below();
+        }
+
+        return pos;
+    }
+
+    @Nullable
+    private BlockPos findDuplicateFlowerPosition(ServerLevel level, BlockPos sourcePos, BlockState sourceState) {
+        final RandomSource random = level.getRandom();
+        final var range = 4;
+        for (int i = 0; i < 48; i++) {
+            final BlockPos targetPos = sourcePos.offset(
+                    random.nextInt(range * 2 + 1) - range,
+                    random.nextInt(3) - 1,
+                    random.nextInt(range * 2 + 1) - range);
+            if (!targetPos.equals(sourcePos) && FlowerDuplication.canPlaceFlower(level, targetPos, sourceState)) {
+                return targetPos;
+            }
+        }
+
+        return null;
     }
 
     private boolean plantFlower(ServerLevel level, BlockPos pos, RandomSource random) {
