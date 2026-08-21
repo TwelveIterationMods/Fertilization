@@ -1,3 +1,1 @@
-- Added `floristsBoneMealFallbackBiome` option as a fallback for biomes that have no flower configs
-- Fixed Florist's Bonemeal failure particles not showing if no flowers were found
-- Fixed Florist's Bonemeal placement logic to match regular bonemeal behavior
+- Added a visual effect to Florist's Bonemeal flower duplication to make it feel less cheaty
