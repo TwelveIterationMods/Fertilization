@@ -69,9 +69,9 @@ public class FlowerDuplication {
         final double arcHeight = 0.75 + pendingDuplicate.sourcePos.distManhattan(pendingDuplicate.targetPos) * 0.08;
         final double arcY = Math.sin(progress * Math.PI) * arcHeight;
 
-        final double x = Mth.lerp(sourceX, targetX, progress);
-        final double y = Mth.lerp(sourceY, targetY, progress) + arcY;
-        final double z = Mth.lerp(sourceZ, targetZ, progress);
+        final double x = Mth.lerp(progress, sourceX, targetX);
+        final double y = Mth.lerp(progress, sourceY, targetY) + arcY;
+        final double z = Mth.lerp(progress, sourceZ, targetZ);
         level.sendParticles(
                 ParticleTypes.HAPPY_VILLAGER,
                 x,
