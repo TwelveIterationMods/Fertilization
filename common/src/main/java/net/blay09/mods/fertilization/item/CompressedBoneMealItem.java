@@ -5,7 +5,6 @@ import net.blay09.mods.fertilization.BoneMealHelper;
 import net.blay09.mods.fertilization.FertilizationConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -30,28 +29,30 @@ public class CompressedBoneMealItem extends Item {
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
         BlockState state = level.getBlockState(pos);
-        InteractionHand hand = context.getHand();
-
         if (player == null) {
             return InteractionResult.PASS;
         }
 
-        ItemStack handItem = player.getItemInHand(hand);
+        ItemStack handItem = context.getItemInHand();
         InteractionResult result = applyBoneMeal(level, pos, state, handItem, player);
-        if (result == InteractionResult.FAIL) {
-            player.swing(hand, player.getItemInHand(hand).getInteractAnimation(), false);
-        } else if (result == InteractionResult.SUCCESS) {
-            if (!player.getAbilities().instabuild) {
+        if (result == InteractionResult.SUCCESS) {
+            if (!level.isClientSide() && !player.getAbilities().instabuild) {
                 handItem.shrink(1);
             }
+
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         return result;
     }
 
     public InteractionResult applyBoneMeal(Level level, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable Player player) {
-        if (!(state.getBlock() instanceof BonemealableBlock) || !((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.getRandom(), pos, state, BonemealSource.INTERACTION)) {
+        if (!(state.getBlock() instanceof BonemealableBlock)) {
             return InteractionResult.PASS;
+        }
+
+        if (!((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.getRandom(), pos, state, BonemealSource.INTERACTION)) {
+            return InteractionResult.SUCCESS;
         }
 
         // Disable grass, no one would want to waste their hard-earned bone meal on that.
