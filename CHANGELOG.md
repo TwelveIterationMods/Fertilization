@@ -1,1 +1,1 @@
-- Added a visual effect to Florist's Bonemeal flower duplication to make it feel less cheaty
+- Updated to Minecraft 26.3
