@@ -5,12 +5,14 @@ import net.blay09.mods.fertilization.block.ModBlocks;
 import net.blay09.mods.fertilization.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.BlockItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -20,8 +22,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
-        return new RecipeProvider(registryLookup, exporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+        return new RecipeProvider(recipes, advancements) {
             @Override
             public void buildRecipes() {
                 shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.compressedBoneMealBlock)
@@ -30,19 +32,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("BBB")
                         .define('B', ModItems.compressedBoneMeal)
                         .unlockedBy("has_compressed_bone_meal", has(ModItems.compressedBoneMeal))
-                        .save(exporter);
+                        .save(output);
 
                 shaped(RecipeCategory.MISC, ModItems.compressedBoneMeal)
                         .pattern("BB")
                         .pattern("BB")
                         .define('B', Items.BONE_MEAL)
                         .unlockedBy("has_bone_meal", has(Items.BONE_MEAL))
-                        .save(exporter);
+                        .save(output);
 
                 shapeless(RecipeCategory.MISC, ModItems.compressedBoneMeal, 9)
                         .requires(ModBlocks.compressedBoneMealBlock)
                         .unlockedBy("has_compressed_bonemeal_block", has(ModBlocks.compressedBoneMealBlock))
-                        .save(exporter, Fertilization.MOD_ID + ":compressed_bonemeal_from_block");
+                        .save(output, Fertilization.MOD_ID + ":compressed_bonemeal_from_block");
 
                 shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.extremelyCompressedBoneMealBlock)
                         .pattern("BBB")
@@ -50,19 +52,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("BBB")
                         .define('B', ModItems.extremelyCompressedBoneMeal)
                         .unlockedBy("has_extremely_compressed_bone_meal", has(ModItems.extremelyCompressedBoneMeal))
-                        .save(exporter);
+                        .save(output);
 
                 shaped(RecipeCategory.MISC, ModItems.extremelyCompressedBoneMeal)
                         .pattern("BB")
                         .pattern("BB")
                         .define('B', ModItems.compressedBoneMeal)
                         .unlockedBy("has_compressed_bone_meal", has(ModItems.compressedBoneMeal))
-                        .save(exporter);
+                        .save(output);
 
                 shapeless(RecipeCategory.MISC, ModItems.extremelyCompressedBoneMeal, 9)
                         .requires(ModBlocks.extremelyCompressedBoneMealBlock)
                         .unlockedBy("has_extremely_compressed_bonemeal_block", has(ModBlocks.extremelyCompressedBoneMealBlock))
-                        .save(exporter, Fertilization.MOD_ID + ":extremely_compressed_bonemeal_from_block");
+                        .save(output, Fertilization.MOD_ID + ":extremely_compressed_bonemeal_from_block");
 
                 shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.floristsBoneMealBlock)
                         .pattern("BBB")
@@ -70,7 +72,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("BBB")
                         .define('B', ModItems.floristsBoneMeal)
                         .unlockedBy("has_florists_bone_meal", has(ModItems.floristsBoneMeal))
-                        .save(exporter);
+                        .save(output);
 
                 shaped(RecipeCategory.MISC, ModItems.floristsBoneMeal, 2)
                         .pattern("BF")
@@ -78,12 +80,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .define('B', Items.BONE_MEAL)
                         .define('F', BlockItemTags.SMALL_FLOWERS.item())
                         .unlockedBy("has_bone_meal", has(Items.BONE_MEAL))
-                        .save(exporter);
+                        .save(output);
 
                 shapeless(RecipeCategory.MISC, ModItems.floristsBoneMeal, 9)
                         .requires(ModBlocks.floristsBoneMealBlock)
                         .unlockedBy("has_florists_bonemeal_block", has(ModBlocks.floristsBoneMealBlock))
-                        .save(exporter, Fertilization.MOD_ID + ":florists_bonemeal_from_block");
+                        .save(output, Fertilization.MOD_ID + ":florists_bonemeal_from_block");
             }
         };
     }

@@ -51,7 +51,7 @@ public class BoneMealUseBlockHandler {
             level.levelEvent(2005, pos, 0);
         }
 
-        player.swing(hand);
+        player.swing(hand, player.getItemInHand(hand).getInteractAnimation(), true);
 
         if (!player.getAbilities().instabuild) {
             itemStack.shrink(1);

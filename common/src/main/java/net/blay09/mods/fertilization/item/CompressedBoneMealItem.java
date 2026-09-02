@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BonemealSource;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.Nullable;
@@ -38,7 +39,7 @@ public class CompressedBoneMealItem extends Item {
         ItemStack handItem = player.getItemInHand(hand);
         InteractionResult result = applyBoneMeal(level, pos, state, handItem, player);
         if (result == InteractionResult.FAIL) {
-            player.swing(hand);
+            player.swing(hand, player.getItemInHand(hand).getInteractAnimation(), false);
         } else if (result == InteractionResult.SUCCESS) {
             if (!player.getAbilities().instabuild) {
                 handItem.shrink(1);
@@ -49,7 +50,7 @@ public class CompressedBoneMealItem extends Item {
     }
 
     public InteractionResult applyBoneMeal(Level level, BlockPos pos, BlockState state, ItemStack itemStack, @Nullable Player player) {
-        if (!(state.getBlock() instanceof BonemealableBlock) || !((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.getRandom(), pos, state)) {
+        if (!(state.getBlock() instanceof BonemealableBlock) || !((BonemealableBlock) state.getBlock()).isBonemealSuccess(level, level.getRandom(), pos, state, BonemealSource.INTERACTION)) {
             return InteractionResult.PASS;
         }
 

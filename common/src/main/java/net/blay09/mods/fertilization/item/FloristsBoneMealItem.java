@@ -24,7 +24,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -188,7 +188,7 @@ public class FloristsBoneMealItem extends Item {
         return false;
     }
 
-    private List<ConfiguredFeature<?, ?>> getFallbackFlowerFeatures(ServerLevel level) {
+    private List<Feature> getFallbackFlowerFeatures(ServerLevel level) {
         final var fallbackBiome = FertilizationConfig.getActive().floristsBoneMealFallbackBiome;
         if (fallbackBiome.isBlank()) {
             return List.of();

@@ -4,6 +4,7 @@ import net.blay09.mods.balm.world.level.levelgen.BalmWorldGen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.grower.TreeGrower;
@@ -12,7 +13,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ModWorldGen {
     private static final Map<Block, TreeGrower> treeGrowers = new HashMap<>();
@@ -27,9 +27,9 @@ public class ModWorldGen {
     }
 
     private static void registerFancyTree(Block sapling, String name) {
-        final var fancyTree = ResourceKey.create(Registries.CONFIGURED_FEATURE, id("fancy_" + name));
-        final var fancyTreeBees = ResourceKey.create(Registries.CONFIGURED_FEATURE, id("fancy_" + name + "_bees"));
-        treeGrowers.put(sapling, new TreeGrower(name, Optional.empty(), Optional.of(fancyTree), Optional.of(fancyTreeBees)));
+        final var fancyTree = ResourceKey.create(Registries.FEATURE, id("fancy_" + name));
+        final var fancyTreeBees = ResourceKey.create(Registries.FEATURE, id("fancy_" + name + "_bees"));
+        treeGrowers.put(sapling, new TreeGrower(name, WeightedList.of(), WeightedList.of(fancyTree), WeightedList.of(fancyTreeBees), fancyTree));
     }
 
     @Nullable
