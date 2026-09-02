@@ -40,7 +40,7 @@ public class ExtremelyCompressedBoneMealItem extends CompressedBoneMealItem {
                 }
             }
 
-            return InteractionResult.SUCCESS;
+            return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
         }
 
         return super.useOn(context);
