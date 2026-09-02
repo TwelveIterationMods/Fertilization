@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fertilization:compressed_bonemeal"
+        "recipes": "fertilization:compressed_bonemeal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

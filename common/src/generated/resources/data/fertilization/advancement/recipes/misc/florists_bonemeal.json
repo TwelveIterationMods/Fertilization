@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fertilization:florists_bonemeal"
+        "recipes": "fertilization:florists_bonemeal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
